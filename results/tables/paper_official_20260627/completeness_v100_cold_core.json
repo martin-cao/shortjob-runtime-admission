@@ -1,0 +1,208 @@
+{
+  "raw": "04_data/raw/official_v100_20260625/cold_core.jsonl",
+  "expected_rows": 8320,
+  "observed_rows": 8320,
+  "observed_unique_conditions": 8320,
+  "missing_count": 0,
+  "duplicate_condition_count": 0,
+  "unexpected_condition_count": 0,
+  "completed_count": 6320,
+  "infeasible_count": 1040,
+  "status_counts": {
+    "completed": 6320,
+    "failed": 960,
+    "infeasible": 1040
+  },
+  "failure_reason_counts": {
+    "capture: AcceleratorError: CUDA error: operation failed due to a previous error during capture": 960,
+    "precheck: RuntimeError: inference_mode_not_valid_for_training_workload": 80,
+    "precheck: RuntimeError: unstable_shape_not_graph_capturable": 320,
+    "precheck: RuntimeError: workload_declares_cuda_graph_ineligible": 640
+  },
+  "missing_examples": [],
+  "duplicate_examples": [],
+  "unexpected_examples": [],
+  "runtime_failure_count": 960,
+  "runtime_failure_examples": [
+    {
+      "workload_id": "short_text_transformer_padded",
+      "action": "compile_reduce_overhead_plus_graphs",
+      "batch_size": 16,
+      "num_steps": 500,
+      "repeat": 4,
+      "status": "failed",
+      "failure_reason": "capture: AcceleratorError: CUDA error: operation failed due to a previous error during capture"
+    },
+    {
+      "workload_id": "short_text_transformer_padded",
+      "action": "graphs_input_copy",
+      "batch_size": 4,
+      "num_steps": 100,
+      "repeat": 4,
+      "status": "failed",
+      "failure_reason": "capture: AcceleratorError: CUDA error: operation failed due to a previous error during capture"
+    },
+    {
+      "workload_id": "dlrm_recommendation",
+      "action": "compile_reduce_overhead_plus_graphs",
+      "batch_size": 16,
+      "num_steps": 50,
+      "repeat": 2,
+      "status": "failed",
+      "failure_reason": "capture: AcceleratorError: CUDA error: operation failed due to a previous error during capture"
+    },
+    {
+      "workload_id": "short_text_transformer_padded",
+      "action": "graphs_only",
+      "batch_size": 16,
+      "num_steps": 10,
+      "repeat": 2,
+      "status": "failed",
+      "failure_reason": "capture: AcceleratorError: CUDA error: operation failed due to a previous error during capture"
+    },
+    {
+      "workload_id": "synthetic_kernel_chain",
+      "action": "compile_reduce_overhead_plus_graphs",
+      "batch_size": 16,
+      "num_steps": 50,
+      "repeat": 3,
+      "status": "failed",
+      "failure_reason": "capture: AcceleratorError: CUDA error: operation failed due to a previous error during capture"
+    },
+    {
+      "workload_id": "short_text_transformer_padded",
+      "action": "graphs_only",
+      "batch_size": 32,
+      "num_steps": 500,
+      "repeat": 2,
+      "status": "failed",
+      "failure_reason": "capture: AcceleratorError: CUDA error: operation failed due to a previous error during capture"
+    },
+    {
+      "workload_id": "prefill_toy",
+      "action": "compile_reduce_overhead_plus_graphs",
+      "batch_size": 1,
+      "num_steps": 50,
+      "repeat": 1,
+      "status": "failed",
+      "failure_reason": "capture: AcceleratorError: CUDA error: operation failed due to a previous error during capture"
+    },
+    {
+      "workload_id": "prefill_toy",
+      "action": "compile_reduce_overhead_plus_graphs",
+      "batch_size": 4,
+      "num_steps": 50,
+      "repeat": 1,
+      "status": "failed",
+      "failure_reason": "capture: AcceleratorError: CUDA error: operation failed due to a previous error during capture"
+    },
+    {
+      "workload_id": "short_train_small",
+      "action": "compile_reduce_overhead_plus_graphs",
+      "batch_size": 32,
+      "num_steps": 500,
+      "repeat": 5,
+      "status": "failed",
+      "failure_reason": "capture: AcceleratorError: CUDA error: operation failed due to a previous error during capture"
+    },
+    {
+      "workload_id": "short_text_transformer_padded",
+      "action": "compile_reduce_overhead_plus_graphs",
+      "batch_size": 32,
+      "num_steps": 100,
+      "repeat": 5,
+      "status": "failed",
+      "failure_reason": "capture: AcceleratorError: CUDA error: operation failed due to a previous error during capture"
+    },
+    {
+      "workload_id": "fixed_shape_infer_small",
+      "action": "compile_reduce_overhead_plus_graphs",
+      "batch_size": 32,
+      "num_steps": 10,
+      "repeat": 1,
+      "status": "failed",
+      "failure_reason": "capture: AcceleratorError: CUDA error: operation failed due to a previous error during capture"
+    },
+    {
+      "workload_id": "dlrm_recommendation",
+      "action": "compile_reduce_overhead_plus_graphs",
+      "batch_size": 1,
+      "num_steps": 10,
+      "repeat": 3,
+      "status": "failed",
+      "failure_reason": "capture: AcceleratorError: CUDA error: operation failed due to a previous error during capture"
+    },
+    {
+      "workload_id": "short_text_transformer_padded",
+      "action": "compile_reduce_overhead_plus_graphs",
+      "batch_size": 32,
+      "num_steps": 50,
+      "repeat": 2,
+      "status": "failed",
+      "failure_reason": "capture: AcceleratorError: CUDA error: operation failed due to a previous error during capture"
+    },
+    {
+      "workload_id": "llm_decode_proxy",
+      "action": "compile_reduce_overhead_plus_graphs",
+      "batch_size": 16,
+      "num_steps": 10,
+      "repeat": 4,
+      "status": "failed",
+      "failure_reason": "capture: AcceleratorError: CUDA error: operation failed due to a previous error during capture"
+    },
+    {
+      "workload_id": "short_train_small",
+      "action": "compile_reduce_overhead_plus_graphs",
+      "batch_size": 16,
+      "num_steps": 500,
+      "repeat": 4,
+      "status": "failed",
+      "failure_reason": "capture: AcceleratorError: CUDA error: operation failed due to a previous error during capture"
+    },
+    {
+      "workload_id": "prefill_toy",
+      "action": "compile_reduce_overhead_plus_graphs",
+      "batch_size": 4,
+      "num_steps": 100,
+      "repeat": 5,
+      "status": "failed",
+      "failure_reason": "capture: AcceleratorError: CUDA error: operation failed due to a previous error during capture"
+    },
+    {
+      "workload_id": "rl_policy_infer",
+      "action": "compile_reduce_overhead_plus_graphs",
+      "batch_size": 1,
+      "num_steps": 100,
+      "repeat": 2,
+      "status": "failed",
+      "failure_reason": "capture: AcceleratorError: CUDA error: operation failed due to a previous error during capture"
+    },
+    {
+      "workload_id": "fixed_shape_infer_small",
+      "action": "compile_reduce_overhead_plus_graphs",
+      "batch_size": 1,
+      "num_steps": 500,
+      "repeat": 4,
+      "status": "failed",
+      "failure_reason": "capture: AcceleratorError: CUDA error: operation failed due to a previous error during capture"
+    },
+    {
+      "workload_id": "short_text_transformer_padded",
+      "action": "graphs_only",
+      "batch_size": 1,
+      "num_steps": 100,
+      "repeat": 2,
+      "status": "failed",
+      "failure_reason": "capture: AcceleratorError: CUDA error: operation failed due to a previous error during capture"
+    },
+    {
+      "workload_id": "short_text_transformer_padded",
+      "action": "graphs_input_copy",
+      "batch_size": 32,
+      "num_steps": 500,
+      "repeat": 3,
+      "status": "failed",
+      "failure_reason": "capture: AcceleratorError: CUDA error: operation failed due to a previous error during capture"
+    }
+  ]
+}

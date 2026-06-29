@@ -1,0 +1,209 @@
+action_family,count,device,share,total_conditions,workload_id
+eager_family,14,RTX 4060,0.875,16,cv_online_infer
+graphs_family,2,RTX 4060,0.125,16,cv_online_infer
+compile_family,0,RTX 4060,0.0,16,cv_online_infer
+other,0,RTX 4060,0.0,16,cv_online_infer
+eager_family,5,RTX 4060,0.3125,16,decode_toy
+graphs_family,11,RTX 4060,0.6875,16,decode_toy
+compile_family,0,RTX 4060,0.0,16,decode_toy
+other,0,RTX 4060,0.0,16,decode_toy
+eager_family,6,RTX 4060,0.375,16,dlrm_recommendation
+graphs_family,10,RTX 4060,0.625,16,dlrm_recommendation
+compile_family,0,RTX 4060,0.0,16,dlrm_recommendation
+other,0,RTX 4060,0.0,16,dlrm_recommendation
+eager_family,16,RTX 4060,1.0,16,dynamic_shape_infer_small
+graphs_family,0,RTX 4060,0.0,16,dynamic_shape_infer_small
+compile_family,0,RTX 4060,0.0,16,dynamic_shape_infer_small
+other,0,RTX 4060,0.0,16,dynamic_shape_infer_small
+eager_family,7,RTX 4060,0.4375,16,fixed_shape_infer_small
+graphs_family,9,RTX 4060,0.5625,16,fixed_shape_infer_small
+compile_family,0,RTX 4060,0.0,16,fixed_shape_infer_small
+other,0,RTX 4060,0.0,16,fixed_shape_infer_small
+eager_family,16,RTX 4060,1.0,16,gnn_irregular
+graphs_family,0,RTX 4060,0.0,16,gnn_irregular
+compile_family,0,RTX 4060,0.0,16,gnn_irregular
+other,0,RTX 4060,0.0,16,gnn_irregular
+eager_family,5,RTX 4060,0.3125,16,llm_decode_proxy
+graphs_family,11,RTX 4060,0.6875,16,llm_decode_proxy
+compile_family,0,RTX 4060,0.0,16,llm_decode_proxy
+other,0,RTX 4060,0.0,16,llm_decode_proxy
+eager_family,7,RTX 4060,0.4375,16,prefill_toy
+graphs_family,9,RTX 4060,0.5625,16,prefill_toy
+compile_family,0,RTX 4060,0.0,16,prefill_toy
+other,0,RTX 4060,0.0,16,prefill_toy
+eager_family,10,RTX 4060,0.625,16,rl_policy_infer
+graphs_family,6,RTX 4060,0.375,16,rl_policy_infer
+compile_family,0,RTX 4060,0.0,16,rl_policy_infer
+other,0,RTX 4060,0.0,16,rl_policy_infer
+eager_family,16,RTX 4060,1.0,16,short_text_transformer_dynamic
+graphs_family,0,RTX 4060,0.0,16,short_text_transformer_dynamic
+compile_family,0,RTX 4060,0.0,16,short_text_transformer_dynamic
+other,0,RTX 4060,0.0,16,short_text_transformer_dynamic
+eager_family,16,RTX 4060,1.0,16,short_text_transformer_padded
+graphs_family,0,RTX 4060,0.0,16,short_text_transformer_padded
+compile_family,0,RTX 4060,0.0,16,short_text_transformer_padded
+other,0,RTX 4060,0.0,16,short_text_transformer_padded
+eager_family,16,RTX 4060,1.0,16,short_train_small
+graphs_family,0,RTX 4060,0.0,16,short_train_small
+compile_family,0,RTX 4060,0.0,16,short_train_small
+other,0,RTX 4060,0.0,16,short_train_small
+eager_family,12,RTX 4060,0.75,16,synthetic_kernel_chain
+graphs_family,4,RTX 4060,0.25,16,synthetic_kernel_chain
+compile_family,0,RTX 4060,0.0,16,synthetic_kernel_chain
+other,0,RTX 4060,0.0,16,synthetic_kernel_chain
+eager_family,14,V100,0.875,16,cv_online_infer
+graphs_family,2,V100,0.125,16,cv_online_infer
+compile_family,0,V100,0.0,16,cv_online_infer
+other,0,V100,0.0,16,cv_online_infer
+eager_family,4,V100,0.25,16,decode_toy
+graphs_family,12,V100,0.75,16,decode_toy
+compile_family,0,V100,0.0,16,decode_toy
+other,0,V100,0.0,16,decode_toy
+eager_family,6,V100,0.375,16,dlrm_recommendation
+graphs_family,10,V100,0.625,16,dlrm_recommendation
+compile_family,0,V100,0.0,16,dlrm_recommendation
+other,0,V100,0.0,16,dlrm_recommendation
+eager_family,16,V100,1.0,16,dynamic_shape_infer_small
+graphs_family,0,V100,0.0,16,dynamic_shape_infer_small
+compile_family,0,V100,0.0,16,dynamic_shape_infer_small
+other,0,V100,0.0,16,dynamic_shape_infer_small
+eager_family,9,V100,0.5625,16,fixed_shape_infer_small
+graphs_family,7,V100,0.4375,16,fixed_shape_infer_small
+compile_family,0,V100,0.0,16,fixed_shape_infer_small
+other,0,V100,0.0,16,fixed_shape_infer_small
+eager_family,16,V100,1.0,16,gnn_irregular
+graphs_family,0,V100,0.0,16,gnn_irregular
+compile_family,0,V100,0.0,16,gnn_irregular
+other,0,V100,0.0,16,gnn_irregular
+eager_family,5,V100,0.3125,16,llm_decode_proxy
+graphs_family,11,V100,0.6875,16,llm_decode_proxy
+compile_family,0,V100,0.0,16,llm_decode_proxy
+other,0,V100,0.0,16,llm_decode_proxy
+eager_family,7,V100,0.4375,16,prefill_toy
+graphs_family,9,V100,0.5625,16,prefill_toy
+compile_family,0,V100,0.0,16,prefill_toy
+other,0,V100,0.0,16,prefill_toy
+eager_family,11,V100,0.6875,16,rl_policy_infer
+graphs_family,5,V100,0.3125,16,rl_policy_infer
+compile_family,0,V100,0.0,16,rl_policy_infer
+other,0,V100,0.0,16,rl_policy_infer
+eager_family,16,V100,1.0,16,short_text_transformer_dynamic
+graphs_family,0,V100,0.0,16,short_text_transformer_dynamic
+compile_family,0,V100,0.0,16,short_text_transformer_dynamic
+other,0,V100,0.0,16,short_text_transformer_dynamic
+eager_family,16,V100,1.0,16,short_text_transformer_padded
+graphs_family,0,V100,0.0,16,short_text_transformer_padded
+compile_family,0,V100,0.0,16,short_text_transformer_padded
+other,0,V100,0.0,16,short_text_transformer_padded
+eager_family,16,V100,1.0,16,short_train_small
+graphs_family,0,V100,0.0,16,short_train_small
+compile_family,0,V100,0.0,16,short_train_small
+other,0,V100,0.0,16,short_train_small
+eager_family,12,V100,0.75,16,synthetic_kernel_chain
+graphs_family,4,V100,0.25,16,synthetic_kernel_chain
+compile_family,0,V100,0.0,16,synthetic_kernel_chain
+other,0,V100,0.0,16,synthetic_kernel_chain
+eager_family,12,A100,0.75,16,cv_online_infer
+graphs_family,4,A100,0.25,16,cv_online_infer
+compile_family,0,A100,0.0,16,cv_online_infer
+other,0,A100,0.0,16,cv_online_infer
+eager_family,4,A100,0.25,16,decode_toy
+graphs_family,12,A100,0.75,16,decode_toy
+compile_family,0,A100,0.0,16,decode_toy
+other,0,A100,0.0,16,decode_toy
+eager_family,4,A100,0.25,16,dlrm_recommendation
+graphs_family,12,A100,0.75,16,dlrm_recommendation
+compile_family,0,A100,0.0,16,dlrm_recommendation
+other,0,A100,0.0,16,dlrm_recommendation
+eager_family,16,A100,1.0,16,dynamic_shape_infer_small
+graphs_family,0,A100,0.0,16,dynamic_shape_infer_small
+compile_family,0,A100,0.0,16,dynamic_shape_infer_small
+other,0,A100,0.0,16,dynamic_shape_infer_small
+eager_family,5,A100,0.3125,16,fixed_shape_infer_small
+graphs_family,11,A100,0.6875,16,fixed_shape_infer_small
+compile_family,0,A100,0.0,16,fixed_shape_infer_small
+other,0,A100,0.0,16,fixed_shape_infer_small
+eager_family,16,A100,1.0,16,gnn_irregular
+graphs_family,0,A100,0.0,16,gnn_irregular
+compile_family,0,A100,0.0,16,gnn_irregular
+other,0,A100,0.0,16,gnn_irregular
+eager_family,4,A100,0.25,16,llm_decode_proxy
+graphs_family,12,A100,0.75,16,llm_decode_proxy
+compile_family,0,A100,0.0,16,llm_decode_proxy
+other,0,A100,0.0,16,llm_decode_proxy
+eager_family,3,A100,0.1875,16,prefill_toy
+graphs_family,13,A100,0.8125,16,prefill_toy
+compile_family,0,A100,0.0,16,prefill_toy
+other,0,A100,0.0,16,prefill_toy
+eager_family,10,A100,0.625,16,rl_policy_infer
+graphs_family,6,A100,0.375,16,rl_policy_infer
+compile_family,0,A100,0.0,16,rl_policy_infer
+other,0,A100,0.0,16,rl_policy_infer
+eager_family,16,A100,1.0,16,short_text_transformer_dynamic
+graphs_family,0,A100,0.0,16,short_text_transformer_dynamic
+compile_family,0,A100,0.0,16,short_text_transformer_dynamic
+other,0,A100,0.0,16,short_text_transformer_dynamic
+eager_family,16,A100,1.0,16,short_text_transformer_padded
+graphs_family,0,A100,0.0,16,short_text_transformer_padded
+compile_family,0,A100,0.0,16,short_text_transformer_padded
+other,0,A100,0.0,16,short_text_transformer_padded
+eager_family,16,A100,1.0,16,short_train_small
+graphs_family,0,A100,0.0,16,short_train_small
+compile_family,0,A100,0.0,16,short_train_small
+other,0,A100,0.0,16,short_train_small
+eager_family,8,A100,0.5,16,synthetic_kernel_chain
+graphs_family,8,A100,0.5,16,synthetic_kernel_chain
+compile_family,0,A100,0.0,16,synthetic_kernel_chain
+other,0,A100,0.0,16,synthetic_kernel_chain
+eager_family,11,H100,0.6875,16,cv_online_infer
+graphs_family,5,H100,0.3125,16,cv_online_infer
+compile_family,0,H100,0.0,16,cv_online_infer
+other,0,H100,0.0,16,cv_online_infer
+eager_family,9,H100,0.5625,16,decode_toy
+graphs_family,7,H100,0.4375,16,decode_toy
+compile_family,0,H100,0.0,16,decode_toy
+other,0,H100,0.0,16,decode_toy
+eager_family,10,H100,0.625,16,dlrm_recommendation
+graphs_family,6,H100,0.375,16,dlrm_recommendation
+compile_family,0,H100,0.0,16,dlrm_recommendation
+other,0,H100,0.0,16,dlrm_recommendation
+eager_family,16,H100,1.0,16,dynamic_shape_infer_small
+graphs_family,0,H100,0.0,16,dynamic_shape_infer_small
+compile_family,0,H100,0.0,16,dynamic_shape_infer_small
+other,0,H100,0.0,16,dynamic_shape_infer_small
+eager_family,9,H100,0.5625,16,fixed_shape_infer_small
+graphs_family,7,H100,0.4375,16,fixed_shape_infer_small
+compile_family,0,H100,0.0,16,fixed_shape_infer_small
+other,0,H100,0.0,16,fixed_shape_infer_small
+eager_family,16,H100,1.0,16,gnn_irregular
+graphs_family,0,H100,0.0,16,gnn_irregular
+compile_family,0,H100,0.0,16,gnn_irregular
+other,0,H100,0.0,16,gnn_irregular
+eager_family,10,H100,0.625,16,llm_decode_proxy
+graphs_family,6,H100,0.375,16,llm_decode_proxy
+compile_family,0,H100,0.0,16,llm_decode_proxy
+other,0,H100,0.0,16,llm_decode_proxy
+eager_family,6,H100,0.375,16,prefill_toy
+graphs_family,10,H100,0.625,16,prefill_toy
+compile_family,0,H100,0.0,16,prefill_toy
+other,0,H100,0.0,16,prefill_toy
+eager_family,12,H100,0.75,16,rl_policy_infer
+graphs_family,4,H100,0.25,16,rl_policy_infer
+compile_family,0,H100,0.0,16,rl_policy_infer
+other,0,H100,0.0,16,rl_policy_infer
+eager_family,16,H100,1.0,16,short_text_transformer_dynamic
+graphs_family,0,H100,0.0,16,short_text_transformer_dynamic
+compile_family,0,H100,0.0,16,short_text_transformer_dynamic
+other,0,H100,0.0,16,short_text_transformer_dynamic
+eager_family,16,H100,1.0,16,short_text_transformer_padded
+graphs_family,0,H100,0.0,16,short_text_transformer_padded
+compile_family,0,H100,0.0,16,short_text_transformer_padded
+other,0,H100,0.0,16,short_text_transformer_padded
+eager_family,16,H100,1.0,16,short_train_small
+graphs_family,0,H100,0.0,16,short_train_small
+compile_family,0,H100,0.0,16,short_train_small
+other,0,H100,0.0,16,short_train_small
+eager_family,12,H100,0.75,16,synthetic_kernel_chain
+graphs_family,4,H100,0.25,16,synthetic_kernel_chain
+compile_family,0,H100,0.0,16,synthetic_kernel_chain
+other,0,H100,0.0,16,synthetic_kernel_chain

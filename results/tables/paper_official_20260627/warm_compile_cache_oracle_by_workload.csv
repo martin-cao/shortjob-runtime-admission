@@ -1,0 +1,31 @@
+count,device,oracle_action,workload_id
+3,RTX 4060,best_eager,cv_online_infer
+3,RTX 4060,eager,cv_online_infer
+4,RTX 4060,best_eager,dynamic_shape_infer_small
+2,RTX 4060,eager,dynamic_shape_infer_small
+1,RTX 4060,best_eager,llm_decode_proxy
+5,RTX 4060,graphs_only,llm_decode_proxy
+6,RTX 4060,eager,short_train_small
+1,V100,best_eager,cv_online_infer
+5,V100,eager,cv_online_infer
+1,V100,best_eager,dynamic_shape_infer_small
+5,V100,eager,dynamic_shape_infer_small
+1,V100,eager,llm_decode_proxy
+5,V100,graphs_only,llm_decode_proxy
+6,V100,eager,short_train_small
+4,A100,best_eager,cv_online_infer
+1,A100,eager,cv_online_infer
+1,A100,graphs_only,cv_online_infer
+5,A100,best_eager,dynamic_shape_infer_small
+1,A100,eager,dynamic_shape_infer_small
+6,A100,graphs_only,llm_decode_proxy
+6,A100,eager,short_train_small
+1,H100,best_eager,cv_online_infer
+2,H100,eager,cv_online_infer
+3,H100,graphs_only,cv_online_infer
+4,H100,best_eager,dynamic_shape_infer_small
+2,H100,eager,dynamic_shape_infer_small
+2,H100,best_eager,llm_decode_proxy
+2,H100,eager,llm_decode_proxy
+2,H100,graphs_only,llm_decode_proxy
+6,H100,eager,short_train_small

@@ -1,0 +1,5 @@
+compile_action_rows,compile_best_rows,conditions,conditions_with_best_eager_baseline,device,graphs_best_rows,graphs_infeasible_rows,oracle_best_eager,oracle_compile_family,oracle_eager_family,oracle_graphs_family,oracle_literal_eager
+832,0,208,192,RTX 4060,62,128,74,0,146,62,72
+832,0,208,192,V100,60,128,81,0,148,60,67
+832,0,208,192,A100,78,128,70,0,130,78,60
+832,0,208,192,H100,49,128,78,0,159,49,81

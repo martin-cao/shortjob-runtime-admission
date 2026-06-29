@@ -1,0 +1,5 @@
+device_label,graph_oracle_count,graphs_only_correctness_blocked_count,graphs_only_first_job_slower_count,graphs_only_infeasible_count,graphs_only_win_vs_eager_count,median_graphs_only_speedup_vs_eager,n_conditions
+A100,11,6,3,6,11,3.151123,24
+H100,12,6,5,6,12,1.108076,24
+RTX 4060,11,6,5,6,10,2.077956,24
+V100,11,6,5,6,12,2.088891,24

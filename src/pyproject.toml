@@ -1,0 +1,38 @@
+[project]
+name = "shortjob-runner"
+version = "0.1.0"
+description = "Worker-local runtime optimization admission runner and analyzer"
+readme = "README.md"
+requires-python = ">=3.11, <3.12"
+dependencies = [
+    "torch==2.12.0+cu126; sys_platform == 'linux' and platform_machine == 'x86_64'",
+    "torch==2.12.0; sys_platform != 'linux' or platform_machine != 'x86_64'",
+]
+
+[project.scripts]
+shortjob-runner = "shortjob_runner.cli:main"
+shortjob-summarize = "shortjob_runner.summarize:main"
+shortjob-evaluate = "shortjob_runner.policies:main"
+shortjob-admit = "shortjob_runner.admission:main"
+shortjob-check-env = "shortjob_runner.check_env:main"
+shortjob-check-correctness = "shortjob_runner.correctness:main"
+shortjob-check-completeness = "shortjob_runner.completeness:main"
+shortjob-profile = "shortjob_runner.profiling:main"
+
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cu126", marker = "sys_platform == 'linux' and platform_machine == 'x86_64'" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cu126"
+url = "https://download.pytorch.org/whl/cu126"
+explicit = true
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["shortjob_runner*"]

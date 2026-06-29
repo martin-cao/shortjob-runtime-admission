@@ -1,0 +1,417 @@
+device,workload,action,status,failure_stage,reference_action,batch_size,num_steps,seed,precheck_reason,runtime_failure,exception_type,exception_message_short,correctness_metric,atol,rtol,max_abs_error,max_rel_error,output_mismatch,state_mismatch,mismatch_key,compared_state_keys,failure_category,evaluation_treatment
+RTX 4060,fixed_shape_infer_small,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+RTX 4060,fixed_shape_infer_small,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+RTX 4060,fixed_shape_infer_small,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,1.4901e-08,6.50468e-07,false,false,,output,passed,performance stress baseline
+RTX 4060,fixed_shape_infer_small,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,1.4901e-08,6.50468e-07,false,false,,output,passed,performance stress baseline
+RTX 4060,fixed_shape_infer_small,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+RTX 4060,fixed_shape_infer_small,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+RTX 4060,fixed_shape_infer_small,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,1.4901e-08,6.50468e-07,false,false,,output,passed,diagnostic candidate
+RTX 4060,fixed_shape_infer_small,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+RTX 4060,short_train_small,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,passed,eager baseline
+RTX 4060,short_train_small,best_eager,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: inference_mode_not_valid_for_training_workload,false,RuntimeError,inference_mode_not_valid_for_training_workload,,1e-05,0.0001,,,false,false,,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,precheck_training_inference_mode,eager baseline when legal
+RTX 4060,short_train_small,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,passed,performance stress baseline
+RTX 4060,short_train_small,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,passed,performance stress baseline
+RTX 4060,short_train_small,graphs_only,fail,correctness,eager,4,3,42,,false,,Scalars are not close!,torch.testing.assert_close over workload correctness_state,1e-05,0.0001,0.003464698792,0.001508637291,false,true,loss,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,short_train_loss_mismatch,eligible candidate when valid
+RTX 4060,short_train_small,graphs_input_copy,fail,correctness,eager,4,3,42,,false,,Scalars are not close!,torch.testing.assert_close over workload correctness_state,1e-05,0.0001,0.000443458557,0.000190383874,false,true,loss,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,short_train_loss_mismatch,eligible candidate when valid
+RTX 4060,short_train_small,compile_plus_graphs,fail,correctness,eager,4,3,42,,false,,Scalars are not close!,torch.testing.assert_close over workload correctness_state,1e-05,0.0001,0.003464698792,0.001508637291,false,true,loss,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,short_train_loss_mismatch,diagnostic candidate
+RTX 4060,short_train_small,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+RTX 4060,dynamic_shape_infer_small,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+RTX 4060,dynamic_shape_infer_small,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+RTX 4060,dynamic_shape_infer_small,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,performance stress baseline
+RTX 4060,dynamic_shape_infer_small,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,performance stress baseline
+RTX 4060,dynamic_shape_infer_small,graphs_only,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: unstable_shape_not_graph_capturable,false,RuntimeError,unstable_shape_not_graph_capturable,,1e-05,0.0001,,,false,false,,output,precheck_unstable_shape,eligible candidate when valid
+RTX 4060,dynamic_shape_infer_small,graphs_input_copy,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: unstable_shape_not_graph_capturable,false,RuntimeError,unstable_shape_not_graph_capturable,,1e-05,0.0001,,,false,false,,output,precheck_unstable_shape,eligible candidate when valid
+RTX 4060,dynamic_shape_infer_small,compile_plus_graphs,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: unstable_shape_not_graph_capturable,false,RuntimeError,unstable_shape_not_graph_capturable,,1e-05,0.0001,,,false,false,,output,precheck_unstable_shape,diagnostic candidate
+RTX 4060,dynamic_shape_infer_small,compile_reduce_overhead_plus_graphs,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: unstable_shape_not_graph_capturable,false,RuntimeError,unstable_shape_not_graph_capturable,,1e-05,0.0001,,,false,false,,output,precheck_unstable_shape,excluded from positive evidence
+RTX 4060,prefill_toy,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+RTX 4060,prefill_toy,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+RTX 4060,prefill_toy,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.76837e-07,0.000301932367,false,false,,output,passed,performance stress baseline
+RTX 4060,prefill_toy,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.76837e-07,0.000301932367,false,false,,output,passed,performance stress baseline
+RTX 4060,prefill_toy,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+RTX 4060,prefill_toy,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+RTX 4060,prefill_toy,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.76837e-07,0.000301932367,false,false,,output,passed,diagnostic candidate
+RTX 4060,prefill_toy,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+RTX 4060,decode_toy,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+RTX 4060,decode_toy,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+RTX 4060,decode_toy,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.76837e-07,2.788949e-06,false,false,,output,passed,performance stress baseline
+RTX 4060,decode_toy,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.76837e-07,2.788949e-06,false,false,,output,passed,performance stress baseline
+RTX 4060,decode_toy,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+RTX 4060,decode_toy,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+RTX 4060,decode_toy,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.76837e-07,2.788949e-06,false,false,,output,passed,diagnostic candidate
+RTX 4060,decode_toy,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+RTX 4060,cv_online_infer,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+RTX 4060,cv_online_infer,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+RTX 4060,cv_online_infer,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,5.9605e-08,0.000154236913,false,false,,output,passed,performance stress baseline
+RTX 4060,cv_online_infer,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,5.9605e-08,0.000154236913,false,false,,output,passed,performance stress baseline
+RTX 4060,cv_online_infer,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+RTX 4060,cv_online_infer,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+RTX 4060,cv_online_infer,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,5.9605e-08,0.000154236913,false,false,,output,passed,diagnostic candidate
+RTX 4060,cv_online_infer,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+RTX 4060,short_text_transformer_padded,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+RTX 4060,short_text_transformer_padded,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+RTX 4060,short_text_transformer_padded,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,2.68221e-07,4.609183e-06,false,false,,output,passed,performance stress baseline
+RTX 4060,short_text_transformer_padded,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,2.68221e-07,4.609183e-06,false,false,,output,passed,performance stress baseline
+RTX 4060,short_text_transformer_padded,graphs_only,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,padded_text_explicit_graph_capture_failure,eligible candidate when valid
+RTX 4060,short_text_transformer_padded,graphs_input_copy,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,padded_text_explicit_graph_capture_failure,eligible candidate when valid
+RTX 4060,short_text_transformer_padded,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,2.68221e-07,4.609183e-06,false,false,,output,passed,diagnostic candidate
+RTX 4060,short_text_transformer_padded,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+RTX 4060,short_text_transformer_dynamic,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+RTX 4060,short_text_transformer_dynamic,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+RTX 4060,short_text_transformer_dynamic,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,1.19209e-07,2.58638e-07,false,false,,output,passed,performance stress baseline
+RTX 4060,short_text_transformer_dynamic,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,1.19209e-07,2.58638e-07,false,false,,output,passed,performance stress baseline
+RTX 4060,short_text_transformer_dynamic,graphs_only,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,eligible candidate when valid
+RTX 4060,short_text_transformer_dynamic,graphs_input_copy,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,eligible candidate when valid
+RTX 4060,short_text_transformer_dynamic,compile_plus_graphs,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,diagnostic candidate
+RTX 4060,short_text_transformer_dynamic,compile_reduce_overhead_plus_graphs,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,excluded from positive evidence
+RTX 4060,llm_decode_proxy,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+RTX 4060,llm_decode_proxy,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+RTX 4060,llm_decode_proxy,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.76837e-07,1.0969563e-05,false,false,,output,passed,performance stress baseline
+RTX 4060,llm_decode_proxy,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.76837e-07,1.0969563e-05,false,false,,output,passed,performance stress baseline
+RTX 4060,llm_decode_proxy,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+RTX 4060,llm_decode_proxy,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+RTX 4060,llm_decode_proxy,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.76837e-07,1.0969563e-05,false,false,,output,passed,diagnostic candidate
+RTX 4060,llm_decode_proxy,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+RTX 4060,dlrm_recommendation,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+RTX 4060,dlrm_recommendation,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+RTX 4060,dlrm_recommendation,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,performance stress baseline
+RTX 4060,dlrm_recommendation,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,performance stress baseline
+RTX 4060,dlrm_recommendation,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+RTX 4060,dlrm_recommendation,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+RTX 4060,dlrm_recommendation,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,diagnostic candidate
+RTX 4060,dlrm_recommendation,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+RTX 4060,gnn_irregular,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,1.4901e-08,1.08716e-07,false,false,,output,passed,eager baseline
+RTX 4060,gnn_irregular,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,7.451e-09,1.02955e-07,false,false,,output,passed,eager baseline when legal
+RTX 4060,gnn_irregular,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,1.4901e-08,1.08716e-07,false,false,,output,passed,performance stress baseline
+RTX 4060,gnn_irregular,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,1.4901e-08,1.70314e-07,false,false,,output,passed,performance stress baseline
+RTX 4060,gnn_irregular,graphs_only,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,eligible candidate when valid
+RTX 4060,gnn_irregular,graphs_input_copy,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,eligible candidate when valid
+RTX 4060,gnn_irregular,compile_plus_graphs,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,diagnostic candidate
+RTX 4060,gnn_irregular,compile_reduce_overhead_plus_graphs,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,excluded from positive evidence
+RTX 4060,rl_policy_infer,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+RTX 4060,rl_policy_infer,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+RTX 4060,rl_policy_infer,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,performance stress baseline
+RTX 4060,rl_policy_infer,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,performance stress baseline
+RTX 4060,rl_policy_infer,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+RTX 4060,rl_policy_infer,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+RTX 4060,rl_policy_infer,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,diagnostic candidate
+RTX 4060,rl_policy_infer,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+RTX 4060,synthetic_kernel_chain,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+RTX 4060,synthetic_kernel_chain,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+RTX 4060,synthetic_kernel_chain,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.76837e-07,9.368049e-06,false,false,,output,passed,performance stress baseline
+RTX 4060,synthetic_kernel_chain,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.76837e-07,9.368049e-06,false,false,,output,passed,performance stress baseline
+RTX 4060,synthetic_kernel_chain,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+RTX 4060,synthetic_kernel_chain,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+RTX 4060,synthetic_kernel_chain,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.76837e-07,9.368049e-06,false,false,,output,passed,diagnostic candidate
+RTX 4060,synthetic_kernel_chain,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+V100,fixed_shape_infer_small,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+V100,fixed_shape_infer_small,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+V100,fixed_shape_infer_small,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,1.4901e-08,1.26461e-06,false,false,,output,passed,performance stress baseline
+V100,fixed_shape_infer_small,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,1.4901e-08,1.26461e-06,false,false,,output,passed,performance stress baseline
+V100,fixed_shape_infer_small,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+V100,fixed_shape_infer_small,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+V100,fixed_shape_infer_small,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,1.4901e-08,1.26461e-06,false,false,,output,passed,diagnostic candidate
+V100,fixed_shape_infer_small,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+V100,short_train_small,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,passed,eager baseline
+V100,short_train_small,best_eager,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: inference_mode_not_valid_for_training_workload,false,RuntimeError,inference_mode_not_valid_for_training_workload,,1e-05,0.0001,,,false,false,,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,precheck_training_inference_mode,eager baseline when legal
+V100,short_train_small,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,passed,performance stress baseline
+V100,short_train_small,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,passed,performance stress baseline
+V100,short_train_small,graphs_only,fail,correctness,eager,4,3,42,,false,,Scalars are not close!,torch.testing.assert_close over workload correctness_state,1e-05,0.0001,0.003464698792,0.001508637291,false,true,loss,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,short_train_loss_mismatch,eligible candidate when valid
+V100,short_train_small,graphs_input_copy,fail,correctness,eager,4,3,42,,false,,Scalars are not close!,torch.testing.assert_close over workload correctness_state,1e-05,0.0001,0.000443458557,0.000190383874,false,true,loss,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,short_train_loss_mismatch,eligible candidate when valid
+V100,short_train_small,compile_plus_graphs,fail,correctness,eager,4,3,42,,false,,Scalars are not close!,torch.testing.assert_close over workload correctness_state,1e-05,0.0001,0.003464698792,0.001508637291,false,true,loss,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,short_train_loss_mismatch,diagnostic candidate
+V100,short_train_small,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+V100,dynamic_shape_infer_small,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+V100,dynamic_shape_infer_small,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+V100,dynamic_shape_infer_small,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,performance stress baseline
+V100,dynamic_shape_infer_small,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,performance stress baseline
+V100,dynamic_shape_infer_small,graphs_only,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: unstable_shape_not_graph_capturable,false,RuntimeError,unstable_shape_not_graph_capturable,,1e-05,0.0001,,,false,false,,output,precheck_unstable_shape,eligible candidate when valid
+V100,dynamic_shape_infer_small,graphs_input_copy,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: unstable_shape_not_graph_capturable,false,RuntimeError,unstable_shape_not_graph_capturable,,1e-05,0.0001,,,false,false,,output,precheck_unstable_shape,eligible candidate when valid
+V100,dynamic_shape_infer_small,compile_plus_graphs,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: unstable_shape_not_graph_capturable,false,RuntimeError,unstable_shape_not_graph_capturable,,1e-05,0.0001,,,false,false,,output,precheck_unstable_shape,diagnostic candidate
+V100,dynamic_shape_infer_small,compile_reduce_overhead_plus_graphs,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: unstable_shape_not_graph_capturable,false,RuntimeError,unstable_shape_not_graph_capturable,,1e-05,0.0001,,,false,false,,output,precheck_unstable_shape,excluded from positive evidence
+V100,prefill_toy,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+V100,prefill_toy,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+V100,prefill_toy,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.76837e-07,0.000604229607,false,false,,output,passed,performance stress baseline
+V100,prefill_toy,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.76837e-07,0.000604229607,false,false,,output,passed,performance stress baseline
+V100,prefill_toy,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+V100,prefill_toy,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+V100,prefill_toy,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.76837e-07,0.000604229607,false,false,,output,passed,diagnostic candidate
+V100,prefill_toy,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+V100,decode_toy,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+V100,decode_toy,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+V100,decode_toy,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,2.38419e-07,4.5733799e-05,false,false,,output,passed,performance stress baseline
+V100,decode_toy,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,2.38419e-07,4.5733799e-05,false,false,,output,passed,performance stress baseline
+V100,decode_toy,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+V100,decode_toy,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+V100,decode_toy,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,2.38419e-07,4.5733799e-05,false,false,,output,passed,diagnostic candidate
+V100,decode_toy,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+V100,cv_online_infer,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+V100,cv_online_infer,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+V100,cv_online_infer,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,1.4901e-08,2.6399295e-05,false,false,,output,passed,performance stress baseline
+V100,cv_online_infer,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,1.4901e-08,2.6399295e-05,false,false,,output,passed,performance stress baseline
+V100,cv_online_infer,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+V100,cv_online_infer,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+V100,cv_online_infer,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,1.4901e-08,2.6399295e-05,false,false,,output,passed,diagnostic candidate
+V100,cv_online_infer,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+V100,short_text_transformer_padded,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+V100,short_text_transformer_padded,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+V100,short_text_transformer_padded,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,8.9407e-08,2.304578e-06,false,false,,output,passed,performance stress baseline
+V100,short_text_transformer_padded,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,8.9407e-08,2.304578e-06,false,false,,output,passed,performance stress baseline
+V100,short_text_transformer_padded,graphs_only,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,padded_text_explicit_graph_capture_failure,eligible candidate when valid
+V100,short_text_transformer_padded,graphs_input_copy,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,padded_text_explicit_graph_capture_failure,eligible candidate when valid
+V100,short_text_transformer_padded,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,8.9407e-08,2.304578e-06,false,false,,output,passed,diagnostic candidate
+V100,short_text_transformer_padded,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+V100,short_text_transformer_dynamic,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+V100,short_text_transformer_dynamic,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+V100,short_text_transformer_dynamic,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,1.19209e-07,2.52745e-07,false,false,,output,passed,performance stress baseline
+V100,short_text_transformer_dynamic,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,1.19209e-07,2.52745e-07,false,false,,output,passed,performance stress baseline
+V100,short_text_transformer_dynamic,graphs_only,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,eligible candidate when valid
+V100,short_text_transformer_dynamic,graphs_input_copy,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,eligible candidate when valid
+V100,short_text_transformer_dynamic,compile_plus_graphs,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,diagnostic candidate
+V100,short_text_transformer_dynamic,compile_reduce_overhead_plus_graphs,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,excluded from positive evidence
+V100,llm_decode_proxy,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+V100,llm_decode_proxy,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+V100,llm_decode_proxy,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,3.57628e-07,1.0857095e-05,false,false,,output,passed,performance stress baseline
+V100,llm_decode_proxy,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,3.57628e-07,1.0857095e-05,false,false,,output,passed,performance stress baseline
+V100,llm_decode_proxy,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+V100,llm_decode_proxy,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+V100,llm_decode_proxy,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,3.57628e-07,1.0857095e-05,false,false,,output,passed,diagnostic candidate
+V100,llm_decode_proxy,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+V100,dlrm_recommendation,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+V100,dlrm_recommendation,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+V100,dlrm_recommendation,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,performance stress baseline
+V100,dlrm_recommendation,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,performance stress baseline
+V100,dlrm_recommendation,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+V100,dlrm_recommendation,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+V100,dlrm_recommendation,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,diagnostic candidate
+V100,dlrm_recommendation,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+V100,gnn_irregular,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+V100,gnn_irregular,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,1.4901e-08,1.08716e-07,false,false,,output,passed,eager baseline when legal
+V100,gnn_irregular,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,performance stress baseline
+V100,gnn_irregular,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,7.451e-09,1.02955e-07,false,false,,output,passed,performance stress baseline
+V100,gnn_irregular,graphs_only,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,eligible candidate when valid
+V100,gnn_irregular,graphs_input_copy,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,eligible candidate when valid
+V100,gnn_irregular,compile_plus_graphs,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,diagnostic candidate
+V100,gnn_irregular,compile_reduce_overhead_plus_graphs,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,excluded from positive evidence
+V100,rl_policy_infer,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+V100,rl_policy_infer,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+V100,rl_policy_infer,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,performance stress baseline
+V100,rl_policy_infer,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,performance stress baseline
+V100,rl_policy_infer,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+V100,rl_policy_infer,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+V100,rl_policy_infer,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,diagnostic candidate
+V100,rl_policy_infer,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+V100,synthetic_kernel_chain,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+V100,synthetic_kernel_chain,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+V100,synthetic_kernel_chain,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,9.53674e-07,2.912724e-06,false,false,,output,passed,performance stress baseline
+V100,synthetic_kernel_chain,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,9.53674e-07,2.912724e-06,false,false,,output,passed,performance stress baseline
+V100,synthetic_kernel_chain,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+V100,synthetic_kernel_chain,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+V100,synthetic_kernel_chain,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,9.53674e-07,2.912724e-06,false,false,,output,passed,diagnostic candidate
+V100,synthetic_kernel_chain,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+A100,fixed_shape_infer_small,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+A100,fixed_shape_infer_small,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+A100,fixed_shape_infer_small,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,1.4901e-08,9.48457e-07,false,false,,output,passed,performance stress baseline
+A100,fixed_shape_infer_small,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,1.4901e-08,9.48457e-07,false,false,,output,passed,performance stress baseline
+A100,fixed_shape_infer_small,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+A100,fixed_shape_infer_small,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+A100,fixed_shape_infer_small,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,1.4901e-08,9.48457e-07,false,false,,output,passed,diagnostic candidate
+A100,fixed_shape_infer_small,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+A100,short_train_small,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,passed,eager baseline
+A100,short_train_small,best_eager,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: inference_mode_not_valid_for_training_workload,false,RuntimeError,inference_mode_not_valid_for_training_workload,,1e-05,0.0001,,,false,false,,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,precheck_training_inference_mode,eager baseline when legal
+A100,short_train_small,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,passed,performance stress baseline
+A100,short_train_small,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,passed,performance stress baseline
+A100,short_train_small,graphs_only,fail,correctness,eager,4,3,42,,false,,Scalars are not close!,torch.testing.assert_close over workload correctness_state,1e-05,0.0001,0.003464698792,0.001508637291,false,true,loss,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,short_train_loss_mismatch,eligible candidate when valid
+A100,short_train_small,graphs_input_copy,fail,correctness,eager,4,3,42,,false,,Scalars are not close!,torch.testing.assert_close over workload correctness_state,1e-05,0.0001,0.000443458557,0.000190383874,false,true,loss,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,short_train_loss_mismatch,eligible candidate when valid
+A100,short_train_small,compile_plus_graphs,fail,correctness,eager,4,3,42,,false,,Scalars are not close!,torch.testing.assert_close over workload correctness_state,1e-05,0.0001,0.003464698792,0.001508637291,false,true,loss,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,short_train_loss_mismatch,diagnostic candidate
+A100,short_train_small,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+A100,dynamic_shape_infer_small,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+A100,dynamic_shape_infer_small,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+A100,dynamic_shape_infer_small,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,performance stress baseline
+A100,dynamic_shape_infer_small,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,performance stress baseline
+A100,dynamic_shape_infer_small,graphs_only,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: unstable_shape_not_graph_capturable,false,RuntimeError,unstable_shape_not_graph_capturable,,1e-05,0.0001,,,false,false,,output,precheck_unstable_shape,eligible candidate when valid
+A100,dynamic_shape_infer_small,graphs_input_copy,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: unstable_shape_not_graph_capturable,false,RuntimeError,unstable_shape_not_graph_capturable,,1e-05,0.0001,,,false,false,,output,precheck_unstable_shape,eligible candidate when valid
+A100,dynamic_shape_infer_small,compile_plus_graphs,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: unstable_shape_not_graph_capturable,false,RuntimeError,unstable_shape_not_graph_capturable,,1e-05,0.0001,,,false,false,,output,precheck_unstable_shape,diagnostic candidate
+A100,dynamic_shape_infer_small,compile_reduce_overhead_plus_graphs,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: unstable_shape_not_graph_capturable,false,RuntimeError,unstable_shape_not_graph_capturable,,1e-05,0.0001,,,false,false,,output,precheck_unstable_shape,excluded from positive evidence
+A100,prefill_toy,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+A100,prefill_toy,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+A100,prefill_toy,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.76837e-07,0.000604229607,false,false,,output,passed,performance stress baseline
+A100,prefill_toy,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.76837e-07,0.000604229607,false,false,,output,passed,performance stress baseline
+A100,prefill_toy,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+A100,prefill_toy,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+A100,prefill_toy,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.76837e-07,0.000604229607,false,false,,output,passed,diagnostic candidate
+A100,prefill_toy,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+A100,decode_toy,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+A100,decode_toy,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+A100,decode_toy,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,2.38419e-07,4.094266e-06,false,false,,output,passed,performance stress baseline
+A100,decode_toy,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,2.38419e-07,4.094266e-06,false,false,,output,passed,performance stress baseline
+A100,decode_toy,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+A100,decode_toy,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+A100,decode_toy,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,2.38419e-07,4.094266e-06,false,false,,output,passed,diagnostic candidate
+A100,decode_toy,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+A100,cv_online_infer,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+A100,cv_online_infer,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+A100,cv_online_infer,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.565343e-06,0.016455336583,false,false,,output,passed,performance stress baseline
+A100,cv_online_infer,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.565343e-06,0.016455336583,false,false,,output,passed,performance stress baseline
+A100,cv_online_infer,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+A100,cv_online_infer,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+A100,cv_online_infer,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.565343e-06,0.016455336583,false,false,,output,passed,diagnostic candidate
+A100,cv_online_infer,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+A100,short_text_transformer_padded,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+A100,short_text_transformer_padded,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+A100,short_text_transformer_padded,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,2.38419e-07,3.072787e-06,false,false,,output,passed,performance stress baseline
+A100,short_text_transformer_padded,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,2.38419e-07,3.072787e-06,false,false,,output,passed,performance stress baseline
+A100,short_text_transformer_padded,graphs_only,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,padded_text_explicit_graph_capture_failure,eligible candidate when valid
+A100,short_text_transformer_padded,graphs_input_copy,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,padded_text_explicit_graph_capture_failure,eligible candidate when valid
+A100,short_text_transformer_padded,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,2.38419e-07,3.072787e-06,false,false,,output,passed,diagnostic candidate
+A100,short_text_transformer_padded,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+A100,short_text_transformer_dynamic,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+A100,short_text_transformer_dynamic,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+A100,short_text_transformer_dynamic,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,1.19209e-07,2.58638e-07,false,false,,output,passed,performance stress baseline
+A100,short_text_transformer_dynamic,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,1.19209e-07,2.58638e-07,false,false,,output,passed,performance stress baseline
+A100,short_text_transformer_dynamic,graphs_only,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,eligible candidate when valid
+A100,short_text_transformer_dynamic,graphs_input_copy,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,eligible candidate when valid
+A100,short_text_transformer_dynamic,compile_plus_graphs,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,diagnostic candidate
+A100,short_text_transformer_dynamic,compile_reduce_overhead_plus_graphs,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,excluded from positive evidence
+A100,llm_decode_proxy,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+A100,llm_decode_proxy,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+A100,llm_decode_proxy,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,3.57628e-07,2.4896307e-05,false,false,,output,passed,performance stress baseline
+A100,llm_decode_proxy,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,3.57628e-07,2.4896307e-05,false,false,,output,passed,performance stress baseline
+A100,llm_decode_proxy,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+A100,llm_decode_proxy,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+A100,llm_decode_proxy,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,3.57628e-07,2.4896307e-05,false,false,,output,passed,diagnostic candidate
+A100,llm_decode_proxy,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+A100,dlrm_recommendation,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+A100,dlrm_recommendation,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+A100,dlrm_recommendation,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,performance stress baseline
+A100,dlrm_recommendation,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,performance stress baseline
+A100,dlrm_recommendation,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+A100,dlrm_recommendation,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+A100,dlrm_recommendation,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,diagnostic candidate
+A100,dlrm_recommendation,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+A100,gnn_irregular,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,1.4901e-08,1.08716e-07,false,false,,output,passed,eager baseline
+A100,gnn_irregular,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,1.4901e-08,1.08716e-07,false,false,,output,passed,eager baseline when legal
+A100,gnn_irregular,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,2.9802e-08,1.16443e-07,false,false,,output,passed,performance stress baseline
+A100,gnn_irregular,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,2.9802e-08,1.16443e-07,false,false,,output,passed,performance stress baseline
+A100,gnn_irregular,graphs_only,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,eligible candidate when valid
+A100,gnn_irregular,graphs_input_copy,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,eligible candidate when valid
+A100,gnn_irregular,compile_plus_graphs,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,diagnostic candidate
+A100,gnn_irregular,compile_reduce_overhead_plus_graphs,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,excluded from positive evidence
+A100,rl_policy_infer,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+A100,rl_policy_infer,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+A100,rl_policy_infer,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,performance stress baseline
+A100,rl_policy_infer,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,performance stress baseline
+A100,rl_policy_infer,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+A100,rl_policy_infer,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+A100,rl_policy_infer,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,diagnostic candidate
+A100,rl_policy_infer,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+A100,synthetic_kernel_chain,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+A100,synthetic_kernel_chain,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+A100,synthetic_kernel_chain,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.76837e-07,0.000102197142,false,false,,output,passed,performance stress baseline
+A100,synthetic_kernel_chain,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.76837e-07,0.000102197142,false,false,,output,passed,performance stress baseline
+A100,synthetic_kernel_chain,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+A100,synthetic_kernel_chain,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+A100,synthetic_kernel_chain,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.76837e-07,0.000102197142,false,false,,output,passed,diagnostic candidate
+A100,synthetic_kernel_chain,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+H100,fixed_shape_infer_small,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+H100,fixed_shape_infer_small,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+H100,fixed_shape_infer_small,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,5.960464e-06,0.000424433737,false,false,,output,passed,performance stress baseline
+H100,fixed_shape_infer_small,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,5.960464e-06,0.000424433737,false,false,,output,passed,performance stress baseline
+H100,fixed_shape_infer_small,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+H100,fixed_shape_infer_small,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+H100,fixed_shape_infer_small,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,5.960464e-06,0.000424433737,false,false,,output,passed,diagnostic candidate
+H100,fixed_shape_infer_small,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+H100,short_train_small,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,passed,eager baseline
+H100,short_train_small,best_eager,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: inference_mode_not_valid_for_training_workload,false,RuntimeError,inference_mode_not_valid_for_training_workload,,1e-05,0.0001,,,false,false,,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,precheck_training_inference_mode,eager baseline when legal
+H100,short_train_small,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,passed,performance stress baseline
+H100,short_train_small,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,passed,performance stress baseline
+H100,short_train_small,graphs_only,fail,correctness,eager,4,3,42,,false,,Scalars are not close!,torch.testing.assert_close over workload correctness_state,1e-05,0.0001,0.00346493721,0.001508741106,false,true,loss,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,short_train_loss_mismatch,eligible candidate when valid
+H100,short_train_small,graphs_input_copy,fail,correctness,eager,4,3,42,,false,,Scalars are not close!,torch.testing.assert_close over workload correctness_state,1e-05,0.0001,0.000443458557,0.000190383874,false,true,loss,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,short_train_loss_mismatch,eligible candidate when valid
+H100,short_train_small,compile_plus_graphs,fail,correctness,eager,4,3,42,,false,,Scalars are not close!,torch.testing.assert_close over workload correctness_state,1e-05,0.0001,0.00346493721,0.001508741106,false,true,loss,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,short_train_loss_mismatch,diagnostic candidate
+H100,short_train_small,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,loss param:net.0.bias param:net.0.weight param:net.2.bias param:net.2.weight param:net.4.bias param:net.4.weight,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+H100,dynamic_shape_infer_small,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+H100,dynamic_shape_infer_small,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+H100,dynamic_shape_infer_small,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,performance stress baseline
+H100,dynamic_shape_infer_small,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,performance stress baseline
+H100,dynamic_shape_infer_small,graphs_only,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: unstable_shape_not_graph_capturable,false,RuntimeError,unstable_shape_not_graph_capturable,,1e-05,0.0001,,,false,false,,output,precheck_unstable_shape,eligible candidate when valid
+H100,dynamic_shape_infer_small,graphs_input_copy,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: unstable_shape_not_graph_capturable,false,RuntimeError,unstable_shape_not_graph_capturable,,1e-05,0.0001,,,false,false,,output,precheck_unstable_shape,eligible candidate when valid
+H100,dynamic_shape_infer_small,compile_plus_graphs,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: unstable_shape_not_graph_capturable,false,RuntimeError,unstable_shape_not_graph_capturable,,1e-05,0.0001,,,false,false,,output,precheck_unstable_shape,diagnostic candidate
+H100,dynamic_shape_infer_small,compile_reduce_overhead_plus_graphs,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: unstable_shape_not_graph_capturable,false,RuntimeError,unstable_shape_not_graph_capturable,,1e-05,0.0001,,,false,false,,output,precheck_unstable_shape,excluded from positive evidence
+H100,prefill_toy,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+H100,prefill_toy,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+H100,prefill_toy,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.76837e-07,0.000905797101,false,false,,output,passed,performance stress baseline
+H100,prefill_toy,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.76837e-07,0.000905797101,false,false,,output,passed,performance stress baseline
+H100,prefill_toy,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+H100,prefill_toy,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+H100,prefill_toy,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.76837e-07,0.000905797101,false,false,,output,passed,diagnostic candidate
+H100,prefill_toy,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+H100,decode_toy,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+H100,decode_toy,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+H100,decode_toy,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,2.38419e-07,1.952677e-06,false,false,,output,passed,performance stress baseline
+H100,decode_toy,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,2.38419e-07,1.952677e-06,false,false,,output,passed,performance stress baseline
+H100,decode_toy,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+H100,decode_toy,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+H100,decode_toy,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,2.38419e-07,1.952677e-06,false,false,,output,passed,diagnostic candidate
+H100,decode_toy,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+H100,cv_online_infer,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+H100,cv_online_infer,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+H100,cv_online_infer,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,5.2154e-08,6.6878652e-05,false,false,,output,passed,performance stress baseline
+H100,cv_online_infer,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,5.2154e-08,6.6878652e-05,false,false,,output,passed,performance stress baseline
+H100,cv_online_infer,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+H100,cv_online_infer,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+H100,cv_online_infer,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,5.2154e-08,6.6878652e-05,false,false,,output,passed,diagnostic candidate
+H100,cv_online_infer,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+H100,short_text_transformer_padded,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+H100,short_text_transformer_padded,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+H100,short_text_transformer_padded,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,1.78814e-07,2.309239e-06,false,false,,output,passed,performance stress baseline
+H100,short_text_transformer_padded,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,1.78814e-07,2.309239e-06,false,false,,output,passed,performance stress baseline
+H100,short_text_transformer_padded,graphs_only,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,padded_text_explicit_graph_capture_failure,eligible candidate when valid
+H100,short_text_transformer_padded,graphs_input_copy,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,padded_text_explicit_graph_capture_failure,eligible candidate when valid
+H100,short_text_transformer_padded,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,1.78814e-07,2.309239e-06,false,false,,output,passed,diagnostic candidate
+H100,short_text_transformer_padded,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+H100,short_text_transformer_dynamic,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+H100,short_text_transformer_dynamic,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+H100,short_text_transformer_dynamic,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,2.38419e-07,4.67551e-07,false,false,,output,passed,performance stress baseline
+H100,short_text_transformer_dynamic,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,2.38419e-07,4.67551e-07,false,false,,output,passed,performance stress baseline
+H100,short_text_transformer_dynamic,graphs_only,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,eligible candidate when valid
+H100,short_text_transformer_dynamic,graphs_input_copy,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,eligible candidate when valid
+H100,short_text_transformer_dynamic,compile_plus_graphs,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,diagnostic candidate
+H100,short_text_transformer_dynamic,compile_reduce_overhead_plus_graphs,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,excluded from positive evidence
+H100,llm_decode_proxy,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+H100,llm_decode_proxy,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+H100,llm_decode_proxy,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.76837e-07,9.958572e-06,false,false,,output,passed,performance stress baseline
+H100,llm_decode_proxy,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.76837e-07,9.958572e-06,false,false,,output,passed,performance stress baseline
+H100,llm_decode_proxy,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+H100,llm_decode_proxy,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+H100,llm_decode_proxy,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,4.76837e-07,9.958572e-06,false,false,,output,passed,diagnostic candidate
+H100,llm_decode_proxy,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+H100,dlrm_recommendation,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+H100,dlrm_recommendation,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+H100,dlrm_recommendation,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,performance stress baseline
+H100,dlrm_recommendation,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,performance stress baseline
+H100,dlrm_recommendation,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+H100,dlrm_recommendation,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+H100,dlrm_recommendation,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,diagnostic candidate
+H100,dlrm_recommendation,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+H100,gnn_irregular,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,7.451e-09,8.5157e-08,false,false,,output,passed,eager baseline
+H100,gnn_irregular,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,1.4901e-08,1.08716e-07,false,false,,output,passed,eager baseline when legal
+H100,gnn_irregular,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,2.9802e-08,1.02955e-07,false,false,,output,passed,performance stress baseline
+H100,gnn_irregular,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,2.9802e-08,1.08716e-07,false,false,,output,passed,performance stress baseline
+H100,gnn_irregular,graphs_only,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,eligible candidate when valid
+H100,gnn_irregular,graphs_input_copy,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,eligible candidate when valid
+H100,gnn_irregular,compile_plus_graphs,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,diagnostic candidate
+H100,gnn_irregular,compile_reduce_overhead_plus_graphs,infeasible,precheck,eager,4,3,42,precheck: RuntimeError: workload_declares_cuda_graph_ineligible,false,RuntimeError,workload_declares_cuda_graph_ineligible,,1e-05,0.0001,,,false,false,,output,precheck_declared_graph_ineligible,excluded from positive evidence
+H100,rl_policy_infer,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+H100,rl_policy_infer,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+H100,rl_policy_infer,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,performance stress baseline
+H100,rl_policy_infer,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,performance stress baseline
+H100,rl_policy_infer,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+H100,rl_policy_infer,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+H100,rl_policy_infer,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,diagnostic candidate
+H100,rl_policy_infer,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence
+H100,synthetic_kernel_chain,eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline
+H100,synthetic_kernel_chain,best_eager,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eager baseline when legal
+H100,synthetic_kernel_chain,compile_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,7.15256e-07,6.125008e-06,false,false,,output,passed,performance stress baseline
+H100,synthetic_kernel_chain,compile_reduce_overhead,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,7.15256e-07,6.125008e-06,false,false,,output,passed,performance stress baseline
+H100,synthetic_kernel_chain,graphs_only,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+H100,synthetic_kernel_chain,graphs_input_copy,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,0.0,0.0,false,false,,output,passed,eligible candidate when valid
+H100,synthetic_kernel_chain,compile_plus_graphs,pass,,eager,4,3,42,,false,,,,1e-05,0.0001,7.15256e-07,6.125008e-06,false,false,,output,passed,diagnostic candidate
+H100,synthetic_kernel_chain,compile_reduce_overhead_plus_graphs,fail,execution,eager,4,3,42,,true,AcceleratorError,CUDA error: operation failed due to a previous error during capture,,1e-05,0.0001,,,false,false,,output,reduce_overhead_plus_explicit_graph_capture_failure,excluded from positive evidence

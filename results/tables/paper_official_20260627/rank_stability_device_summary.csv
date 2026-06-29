@@ -1,0 +1,5 @@
+ci95_overlap_count,device_label,graph_oracle_ci95_overlap_count,graph_oracle_count,graph_oracle_marginal_count,marginal_rank_count,n_conditions
+163,RTX 4060,33,61,34,163,208
+153,V100,20,59,26,159,208
+167,A100,52,75,31,140,208
+171,H100,24,44,15,162,208

@@ -1,0 +1,33 @@
+dataset,action,passed_workloads,infeasible_workloads,failed_workloads,action_feasible_false,main_limitation,evaluation_treatment
+RTX 4060,eager,13,0,0,0,none,eager baseline
+RTX 4060,best_eager,12,1,0,1,training-ineligible,eager baseline when legal
+RTX 4060,graphs_only,8,3,2,4,two failed workloads,eligible candidate when valid
+RTX 4060,graphs_input_copy,8,3,2,4,two failed workloads,eligible candidate when valid
+RTX 4060,compile_only,13,0,0,0,high startup cost,performance stress baseline
+RTX 4060,compile_reduce_overhead,13,0,0,0,high startup cost,performance stress baseline
+RTX 4060,compile_plus_graphs,9,3,1,3,one failed workload,diagnostic candidate
+RTX 4060,compile_reduce_overhead_plus_graphs,0,3,10,13,fails capture-feasible workloads,excluded from positive evidence
+V100,eager,13,0,0,0,none,eager baseline
+V100,best_eager,12,1,0,1,training-ineligible,eager baseline when legal
+V100,graphs_only,8,3,2,4,two failed workloads,eligible candidate when valid
+V100,graphs_input_copy,8,3,2,4,two failed workloads,eligible candidate when valid
+V100,compile_only,13,0,0,0,high startup cost,performance stress baseline
+V100,compile_reduce_overhead,13,0,0,0,high startup cost,performance stress baseline
+V100,compile_plus_graphs,9,3,1,3,one failed workload,diagnostic candidate
+V100,compile_reduce_overhead_plus_graphs,0,3,10,13,fails capture-feasible workloads,excluded from positive evidence
+A100,eager,13,0,0,0,none,eager baseline
+A100,best_eager,12,1,0,1,training-ineligible,eager baseline when legal
+A100,graphs_only,8,3,2,4,two failed workloads,eligible candidate when valid
+A100,graphs_input_copy,8,3,2,4,two failed workloads,eligible candidate when valid
+A100,compile_only,13,0,0,0,high startup cost,performance stress baseline
+A100,compile_reduce_overhead,13,0,0,0,high startup cost,performance stress baseline
+A100,compile_plus_graphs,9,3,1,3,one failed workload,diagnostic candidate
+A100,compile_reduce_overhead_plus_graphs,0,3,10,13,fails capture-feasible workloads,excluded from positive evidence
+H100,eager,13,0,0,0,none,eager baseline
+H100,best_eager,12,1,0,1,training-ineligible,eager baseline when legal
+H100,graphs_only,8,3,2,4,two failed workloads,eligible candidate when valid
+H100,graphs_input_copy,8,3,2,4,two failed workloads,eligible candidate when valid
+H100,compile_only,13,0,0,0,high startup cost,performance stress baseline
+H100,compile_reduce_overhead,13,0,0,0,high startup cost,performance stress baseline
+H100,compile_plus_graphs,9,3,1,3,one failed workload,diagnostic candidate
+H100,compile_reduce_overhead_plus_graphs,0,3,10,13,fails capture-feasible workloads,excluded from positive evidence

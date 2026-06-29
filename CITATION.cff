@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+title: "Shortjob Runtime Admission"
+message: "If you use this repository, please cite the associated paper or artifact release."
+authors:
+  - family-names: "Cao"
+    given-names: "Shurui"
+date-released: 2026-06-29
+version: "0.1.0"
+repository-code: "https://github.com/martin-cao/shortjob-runtime-admission"

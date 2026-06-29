@@ -1,0 +1,14 @@
+batch_sizes,correctness_validated,graph_eligible,intended_analogue,main_operators,paper_label,shape_regime,step_budgets,task,workload_id,workload_kind
+1 4 16 32,yes,yes,online CV inference,convolution / normalization / activation,CV infer,fixed,10 50 100 500,inference,cv_online_infer,realistic proxy
+1 4 16 32,yes,yes,token decode micro-work,small matrix / sampling-like decode loop,Decode toy,fixed,10 50 100 500,inference,decode_toy,synthetic toy
+1 4 16 32,yes,yes,recommendation inference,embedding / MLP / feature interaction,DLRM proxy,fixed,10 50 100 500,inference,dlrm_recommendation,realistic proxy
+1 4 16 32,yes,no,dynamic request shapes,shape-changing tensor ops,Dynamic infer,dynamic,10 50 100 500,inference,dynamic_shape_infer_small,synthetic stress
+1 4 16 32,yes,yes,small fixed-shape inference,MLP / activation,Fixed infer,fixed,10 50 100 500,inference,fixed_shape_infer_small,mechanism workload
+1 4 16 32,yes,no,irregular graph inference,scatter / gather / sparse-style aggregation,Irregular GNN,irregular,10 50 100 500,inference,gnn_irregular,realistic proxy
+1 4 16 32,yes,yes,LLM decode proxy,attention-like decode / projection,LLM decode,fixed,10 50 100 500,inference,llm_decode_proxy,realistic proxy
+1 4 16 32,yes,yes,LLM prefill micro-work,attention-like prefill loop,Prefill toy,fixed,10 50 100 500,inference,prefill_toy,synthetic toy
+1 4 16 32,yes,yes,online RL policy inference,MLP policy network,RL policy,fixed,10 50 100 500,inference,rl_policy_infer,realistic proxy
+1 4 16 32,yes,no,variable-length text inference,transformer block / dynamic sequence length,Dyn. text tr.,dynamic,10 50 100 500,inference,short_text_transformer_dynamic,realistic proxy
+1 4 16 32,no for one graph capture case,partial,padded text inference,transformer block / padded sequence,Padded text tr.,padded fixed,10 50 100 500,inference,short_text_transformer_padded,realistic proxy
+1 4 16 32,graph fails correctness,no positive graph evidence,short training job,forward / backward / optimizer,Short train,fixed,10 50 100 500,training,short_train_small,mechanism workload
+1 4 16 32,yes,yes,kernel-launch dominated chain,pointwise / reduction kernel chain,Kernel chain,fixed,10 50 100 500,inference,synthetic_kernel_chain,synthetic stress

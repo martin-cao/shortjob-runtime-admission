@@ -1,0 +1,5 @@
+compute_capability,cpu_count,cuda_matmul_allow_tf32,cudnn_allow_tf32,device,driver_version,gpu_memory_mb,gpu_name,host,platform,python,sm_count,torch,torch_cuda,torch_float32_matmul_precision
+8.9,32,False,True,RTX 4060,580.159.04,7780.6,NVIDIA GeForce RTX 4060 Laptop GPU,martinhomepc-rocky,Linux-6.12.0-211.18.1.el10_2.x86_64-x86_64-with-glibc2.39,3.11.15,24,2.12.0+cu126,12.6,highest
+7.0,384,False,True,V100,580.159.04,32494.1,Tesla V100-PCIE-32GB,x86-9654-03,Linux-6.12.0-211.22.1.el10_2.x86_64-x86_64-with-glibc2.39,3.11.15,80,2.12.0+cu126,12.6,highest
+8.0,128,False,True,A100,580.126.16,81151.8,NVIDIA A100-SXM4-80GB,74c5e00d75e4,Linux-6.8.0-100-generic-x86_64-with-glibc2.35,3.11.15,108,2.12.0+cu126,12.6,highest
+9.0,208,False,True,H100,580.126.09,81079.0,NVIDIA H100 80GB HBM3,e18a5fa7329b,Linux-6.8.0-90-generic-x86_64-with-glibc2.35,3.11.15,132,2.12.0+cu126,12.6,highest
