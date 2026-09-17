@@ -9,6 +9,12 @@ dependencies = [
     "torch==2.12.0; sys_platform != 'linux' or platform_machine != 'x86_64'",
 ]
 
+[project.optional-dependencies]
+real-models = [
+    "torchvision==0.27.0+cu126; sys_platform == 'linux' and platform_machine == 'x86_64'",
+    "torchvision==0.27.0; sys_platform != 'linux' or platform_machine != 'x86_64'",
+]
+
 [project.scripts]
 shortjob-runner = "shortjob_runner.cli:main"
 shortjob-summarize = "shortjob_runner.summarize:main"
@@ -20,6 +26,9 @@ shortjob-check-completeness = "shortjob_runner.completeness:main"
 shortjob-profile = "shortjob_runner.profiling:main"
 
 [tool.uv.sources]
+torchvision = [
+    { index = "pytorch-cu126", marker = "sys_platform == 'linux' and platform_machine == 'x86_64'" },
+]
 torch = [
     { index = "pytorch-cu126", marker = "sys_platform == 'linux' and platform_machine == 'x86_64'" },
 ]

@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 from contextlib import nullcontext
-import math
 import time
 
 import torch
@@ -63,13 +62,20 @@ class Session:
 
     def step(self):
         # Every inference action uses the same inference-mode contract.
-        with nullcontext() if self.workload.spec.supports_training else torch.inference_mode():
+        if self.workload.spec.supports_training or torch.is_inference_mode_enabled():
             self.workload.step()
+        else:
+            with torch.inference_mode():
+                self.workload.step()
 
     def prepare(self):
         allowed, reason = action_eligibility(self.workload, self.action, self.device)
         if not allowed:
             raise ValueError(f'precheck: {reason}')
+        if self.action == 'graphs_input_copy':
+            allowed, reason = self.workload.input_copy_feasible()
+            if not allowed:
+                raise ValueError(f'precheck: {reason}')
         if self.action == 'compile_only':
             self.workload.enable_compile()
         if not self.action.startswith('graphs_'):
@@ -77,7 +83,8 @@ class Session:
         if self.device.type != 'cuda':
             raise ValueError('precheck: CUDA Graph requires CUDA')
         model = getattr(self.workload, 'model', None)
-        initial = {k: v.detach().clone() for k, v in model.state_dict().items()} if model is not None else {}
+        restore = model is not None and self.workload.spec.supports_training
+        initial = {k: v.detach().clone() for k, v in model.state_dict().items()} if restore else {}
         graph = torch.cuda.CUDAGraph()
         stream = torch.cuda.Stream()
         stream.wait_stream(torch.cuda.current_stream())
@@ -89,7 +96,7 @@ class Session:
             self.step()
         # Setup work is paid, but its state updates are not counted as job work.
         # Copy into existing storage; replacing tensors would invalidate capture.
-        if model is not None:
+        if restore:
             model.load_state_dict(initial)
         synchronize(self.device)
         self.graph = graph
@@ -129,7 +136,8 @@ def check_trajectory(workload_id, action, batch, seed, checkpoints, device, *,
                 if not result['passed']:
                     return {'status': 'failed', 'failure_stage': 'numerical', 'checks': checks,
                             'first_failing_checkpoint': {'job': job, 'step': step}}
-    return {'status': 'passed', 'checks': checks, 'setup_state_restored': cand.graph is not None,
+    return {'status': 'passed', 'checks': checks,
+            'training_setup_state_restored': cand.graph is not None and candidate.spec.supports_training,
             'input_contract': 'refreshed' if refresh else 'fixed', 'first_failing_checkpoint': None}
 
 
@@ -144,8 +152,9 @@ def measure(workload_id, action, batch, seed, steps, device, factory) -> dict:
     session.prepare()
     synchronize(device)
     prepared = time.perf_counter()
-    for _ in range(steps):
-        session.advance(refresh=True)
+    with nullcontext() if workload.spec.supports_training else torch.inference_mode():
+        for _ in range(steps):
+            session.advance(refresh=True)
     synchronize(device)
     finished = time.perf_counter()
     return dict(status='measured', initialization_s=initialized-start,

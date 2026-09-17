@@ -48,11 +48,14 @@ def core_tasks(*, controls=True) -> list[dict]:
                 for w, a in itertools.product(FAMILIES, ['eager', 'best_eager'])] + [
                     task('short_train_small', 'eager', 1, 42, 10, kind='baseline_control')
                 ] + rows
+        rows += [task(w, a, 4, 42, 3, kind='precheck_control') for w, a in itertools.product(
+            ['dynamic_shape_infer_small', 'short_text_transformer_dynamic', 'gnn_irregular'],
+            ['graphs_only', 'graphs_input_copy'])]
     return rows
 
 
 def real_tasks(models, *, batch=1, repeats=5, lengths=(10, 50, 100, 500)) -> list[dict]:
-    if batch < 1 or repeats < 1 or not lengths or any(n < 1 for n in lengths):
+    if batch < 1 or repeats < 1 or not lengths or any(n < 1 for n in lengths) or len(set(lengths)) != len(lengths):
         raise ValueError('batch, repeats and lengths must be positive')
     if not models or len(set(models)) != len(models) or any(m not in MODELS for m in models):
         raise ValueError('Choose unique supported models')
