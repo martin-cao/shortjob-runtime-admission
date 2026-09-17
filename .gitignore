@@ -18,3 +18,6 @@ data/env/**
 # Local scratch outputs.
 tmp/
 scratch/
+
+# Prepared image pools and pretrained weight files stay local.
+/data/prepared/

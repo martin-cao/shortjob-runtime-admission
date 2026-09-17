@@ -1,9 +1,15 @@
 """CPU checks for the independent supplemental protocol, never GPU evidence."""
 import json
+import argparse
+import contextlib
+import io
+import os
 from pathlib import Path
 import sys
 import tempfile
+import subprocess
 import unittest
+from unittest.mock import patch
 
 import torch
 
@@ -11,6 +17,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from shortjob_runner.supplement_protocol import core_tasks, real_tasks, task_id, validate_single_gpu
 from shortjob_runner.supplement_runtime import snapshot, compare, check_trajectory
 from shortjob_runner.correctness import make_seeded_workload
+from shortjob_runner.supplement import passing_gate_ids, summarize, atomic_json, run_tasks, run_child
+from shortjob_runner.supplement_runtime import Session
 
 
 class ProtocolTests(unittest.TestCase):
@@ -35,6 +43,63 @@ class ProtocolTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 validate_single_gpu(count)
         validate_single_gpu(1)
+
+    def test_gate_rejects_missing_seed_or_failure_on_other_seed(self):
+        tasks = real_tasks(['resnet50'], lengths=[10], repeats=1)
+        timed = next(t for t in tasks if t['phase'] == 'performance')
+        gates = [t for t in tasks if t['phase'] == 'correctness' and t['action'] == timed['action']]
+        rows = {task_id(t): {'task_id': task_id(t), 'task': t, 'status': 'passed'} for t in gates}
+        self.assertEqual(len(passing_gate_ids(timed, rows)), 2)
+        rows[task_id(gates[0])]['status'] = 'failed'
+        self.assertFalse(passing_gate_ids(timed, rows))
+        rows.pop(task_id(gates[0]))
+        self.assertFalse(passing_gate_ids(timed, rows))
+
+    def test_partial_summary_never_claims_completion(self):
+        self.assertFalse(summarize(core_tasks(), {})['complete'])
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / 'rows' / 'x.json'
+            atomic_json(path, {'status': 'failed'})
+            self.assertEqual(json.loads(path.read_text())['status'], 'failed')
+            self.assertFalse(path.with_suffix('.tmp').exists())
+
+    def test_incomplete_performance_never_gets_a_speedup(self):
+        tasks = real_tasks(['resnet50'], lengths=[10], repeats=2)
+        selected = [t for t in tasks if t['phase'] == 'performance' and t['repeat'] == 0]
+        rows = {task_id(t): dict(task=t, status='measured', total_s=1., initialization_s=.2, execution_s=.8) for t in selected}
+        summary = summarize(tasks, rows)
+        self.assertTrue(all(r['speedup_vs_eager'] is None for r in summary['performance_summary']))
+
+    def test_campaign_resume_skips_completed_rows_and_rejects_changed_host(self):
+        tasks = [t for t in real_tasks(['resnet50'], lengths=[10], repeats=1) if t['action'] == 'eager']
+        env = {'runtime': {'torch': 'fixture'}, 'machine': {'hostname': 'test'},
+               'gpu_identity': 'fixture', 'cuda_visible_devices': '0'}
+        calls = []
+        def child(command, child_env, log, timeout):
+            t = json.loads(command[command.index('--task-json') + 1])
+            output = Path(command[command.index('--output') + 1])
+            row = {'task_id': task_id(t), 'task': t, 'status': 'passed'}
+            if t['phase'] == 'performance':
+                row.update(status='measured', initialization_s=1, execution_s=2, total_s=3)
+            atomic_json(output, row)
+            calls.append(t)
+            return 0
+        with tempfile.TemporaryDirectory() as directory:
+            args = argparse.Namespace(platform='4060', suite='core', run_dir=Path(directory)/'run',
+                                      assets=None, models=[], timeout=3, max_wall_seconds=None)
+            with patch('shortjob_runner.supplement.environment', return_value=env), \
+                 patch('shortjob_runner.supplement.run_child', side_effect=child), contextlib.redirect_stdout(io.StringIO()):
+                self.assertEqual(run_tasks(args, tasks), 0)
+                self.assertEqual(run_tasks(args, tasks), 0)
+                self.assertEqual(len(calls), 3)
+                env['machine']['hostname'] = 'different-host'
+                with self.assertRaises(ValueError):
+                    run_tasks(args, tasks)
+
+    def test_timeout_terminates_child_process(self):
+        with tempfile.TemporaryFile(mode='w+') as log:
+            with self.assertRaises(subprocess.TimeoutExpired):
+                run_child([sys.executable, '-c', 'import time; time.sleep(30)'], dict(os.environ), log, 0.05)
 
 
 class StateTests(unittest.TestCase):
@@ -66,6 +131,26 @@ class StateTests(unittest.TestCase):
     def test_refreshing_input_is_compared_against_matching_reference(self):
         row = check_trajectory('fixed_shape_infer_small', 'eager', 1, 17, [1, 3], torch.device('cpu'), refresh=True)
         self.assertEqual(row['status'], 'passed')
+
+    def test_stale_input_candidate_fails_at_first_checkpoint(self):
+        advance = Session.advance
+        def stale(session, refresh):
+            advance(session, False if session.action == 'best_eager' else refresh)
+        with patch.object(Session, 'advance', stale):
+            row = check_trajectory('fixed_shape_infer_small', 'best_eager', 1, 17, [1, 3], torch.device('cpu'), refresh=True)
+        self.assertEqual(row['status'], 'failed')
+        self.assertEqual(row['first_failing_checkpoint'], {'job': 1, 'step': 1})
+
+    def test_extra_training_update_is_detected(self):
+        def factory(w, b, d, s):
+            result = make_seeded_workload(w, b, d, s)
+            factory.calls += 1
+            if factory.calls == 2:
+                result.step()
+            return result
+        factory.calls = 0
+        row = check_trajectory('short_train_small', 'eager', 1, 42, [1, 3], torch.device('cpu'), factory=factory)
+        self.assertEqual(row['status'], 'failed')
 
 
 if __name__ == '__main__':

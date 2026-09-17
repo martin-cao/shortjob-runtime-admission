@@ -2,6 +2,8 @@
 
 This document describes the public artifact workflow. Unless noted otherwise, run all commands from the repository root.
 
+The independent single-GPU supplemental protocol is documented in [SUPPLEMENTAL_EXPERIMENTS.md](SUPPLEMENTAL_EXPERIMENTS.md). It has separate inputs and outputs; historical results below retain their original protocol.
+
 ## 1. CPU-Side Setup
 
 Install the locked dependencies and run the CPU-side test suite:
