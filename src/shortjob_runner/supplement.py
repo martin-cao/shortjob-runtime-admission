@@ -17,7 +17,8 @@ import sys
 import time
 import traceback
 
-from .supplement_protocol import MODELS, PROTOCOL, core_tasks, real_tasks, task_id, validate_single_gpu
+from .supplement_protocol import MODELS, core_tasks, real_tasks, task_id, validate_single_gpu
+from .supplement_precision import DEFAULT_POLICY, POLICIES, campaign_precision, configure_precision, with_precision
 
 
 def atomic_json(path, value):
@@ -86,7 +87,8 @@ def resume_identity(env):
 
 
 def gate_key(task):
-    return tuple(task[k] for k in ('workload', 'action', 'batch', 'steps'))
+    return tuple(task[k] for k in ('workload', 'action', 'batch', 'steps')) + (
+        task['protocol'], task.get('precision_policy', DEFAULT_POLICY))
 
 
 def passing_gate_ids(task, results):
@@ -119,9 +121,8 @@ def worker(task, assets):
     validate_single_gpu(torch.cuda.device_count())
     torch.set_num_threads(1)
     torch.set_num_interop_threads(1)
-    torch.set_float32_matmul_precision('highest')
-    torch.backends.cuda.matmul.allow_tf32 = False
-    torch.backends.cudnn.allow_tf32 = True
+    _, precision_policy = campaign_precision([task])
+    configure_precision(precision_policy)
     torch.backends.cudnn.benchmark = False
     device = torch.device('cuda:0')
     torch.cuda.init()
@@ -140,12 +141,14 @@ def worker(task, assets):
                          task['steps'], device, factory)
         if not result['final_state_finite']:
             result.update(status='failed', failure_stage='nonfinite_after_measurement')
-    return {**result, 'runtime': runtime_info(), 'gpu_before': before, 'gpu_after': nvidia_smi_snapshot()}
+    return {**result, 'precision_policy': precision_policy, 'runtime': runtime_info(),
+            'gpu_before': before, 'gpu_after': nvidia_smi_snapshot()}
 
 
 def run_tasks(args, tasks):
     from .supplement_models import sha256, validate_assets
 
+    protocol, precision_policy = campaign_precision(tasks)
     if not args.platform or not args.run_dir:
         raise ValueError('--platform and --run-dir are required for execution')
     if args.suite != 'core' and args.assets is None:
@@ -155,7 +158,7 @@ def run_tasks(args, tasks):
         for model in args.models:
             validate_assets(assets, model)
     env = environment(args.platform)
-    manifest = {'protocol': PROTOCOL, 'platform': args.platform, 'tasks': tasks,
+    manifest = {'protocol': protocol, 'precision_policy': precision_policy, 'platform': args.platform, 'tasks': tasks,
                 'source_hash': source_hash(), 'environment_identity': resume_identity(env),
                 'assets_manifest_hash': sha256(assets / 'manifest.json') if assets else None,
                 'timeout_seconds': args.timeout}
@@ -237,6 +240,7 @@ def run_tasks(args, tasks):
 
 
 def summarize(tasks, results):
+    protocol, precision_policy = campaign_precision(tasks)
     counts = Counter(row['status'] for row in results.values())
     nonpassing = sum(r['status'] not in {'passed', 'measured'}
                      and not (r['task']['kind'] == 'precheck_control' and r['status'] == 'infeasible')
@@ -263,7 +267,8 @@ def summarize(tasks, results):
                                 median_total_s=statistics.median(values) if values else None,
                                 speedup_vs_eager=statistics.median(baseline)/statistics.median(values)
                                 if complete and baseline_complete and min(values) > 0 else None))
-    return {'planned': len(tasks), 'finished': len(results), 'complete': len(results) == len(tasks),
+    return {'protocol': protocol, 'precision_policy': precision_policy,
+            'planned': len(tasks), 'finished': len(results), 'complete': len(results) == len(tasks),
             'counts': dict(counts), 'nonpassing': nonpassing,
             'performance_summary': performance,
             'eager_duration_observations': eager,
@@ -281,6 +286,8 @@ def main(argv=None):
     prepare.add_argument('--limit', type=int, default=64)
     run = commands.add_parser('run', help='Defaults to a dry plan; --execute launches CUDA subprocesses')
     run.add_argument('--suite', choices=['core', 'characterize', 'real'], default='core')
+    run.add_argument('--precision-policy', choices=POLICIES, default=DEFAULT_POLICY,
+                     help='strict_fp32 is a separate v2 regime; never reuse v1 timing or gates')
     run.add_argument('--models', nargs='+', choices=MODELS, default=['resnet50', 'vit_b_16'])
     run.add_argument('--platform', choices=['4060', 'v100', 'a100', 'h100'])
     run.add_argument('--batch', type=int, default=1)
@@ -316,8 +323,11 @@ def main(argv=None):
     tasks = core_tasks() if args.suite == 'core' else real_tasks(args.models, batch=args.batch, repeats=args.repeats, lengths=args.lengths)
     if args.suite == 'characterize':
         tasks = [t for t in tasks if t['action'] == 'eager']
+    tasks = with_precision(tasks, args.precision_policy)
+    protocol, precision_policy = campaign_precision(tasks)
     if not args.execute:
-        print(json.dumps({'protocol': PROTOCOL, 'planned': len(tasks), 'phases': dict(Counter(t['phase'] for t in tasks)),
+        print(json.dumps({'protocol': protocol, 'precision_policy': precision_policy,
+                          'planned': len(tasks), 'phases': dict(Counter(t['phase'] for t in tasks)),
                           'candidate_models_not_yet_qualified_as_short_jobs': args.models if args.suite != 'core' else [],
                           'tasks': tasks}, indent=2))
         return 0

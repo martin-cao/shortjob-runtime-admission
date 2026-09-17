@@ -2,6 +2,12 @@
 
 状态：实现了协议、检查器和运行入口；CPU 测试不等于 CUDA 验证或正式实验结果。以下 GPU 命令在 4060 或 V100 的 Linux 主机上执行，不在 Mac 上测 GPU。每个作业只使用一张卡。
 
+## 精度策略：历史 v1 与严格 FP32 v2 分开
+
+`--precision-policy legacy_cudnn_tf32` 为默认值，保留 `supplement-v1` 的 CUDA matmul TF32=false、cuDNN TF32=true。新增 `--precision-policy strict_fp32` 使用 `supplement-v2`，两者均关闭 TF32，并统一用于 eager、graph、compile。`highest` matmul 设置和原 rtol=1e-4、atol=1e-5 不变。这里的严格 FP32 不意味着不同执行路径必须逐位相同，仍需逐条件正确性验证。
+
+增加该设置的原因是实际诊断发现 MobileNetV3 在旧配置下有可复现的 eager/compile 差异，关闭 cuDNN TF32 后在已测输入上通过原门槛；不是通过放宽容差让失败消失。精度选择进入 task ID、manifest、gate 匹配和汇总，禁止把 v1 的 pass 或计时用于 v2。旧结果保持原样。新真实模型实验可显式选择 v2；补查历史数据的条件则保留对应精度配置。改变精度后必须重测同环境下所有参与比较的 action，不从旧表借用 eager 时间。
+
 ## 1. 真实模型与短任务资格
 
 代码支持三个预训练图像分类模型：
@@ -75,6 +81,7 @@ uv run --frozen --extra real-models python src/run_supplement.py prepare \
 
 ```bash
 CUDA_VISIBLE_DEVICES=0 bash scripts/run_local_supplement.sh 4060 characterize \
+  --precision-policy strict_fp32 \
   --models resnet50 vit_b_16 mobilenet_v3_large \
   --assets data/prepared/supplement_images_v1 \
   --run-dir data/raw/supplement_4060_session01_characterize --execute
@@ -86,11 +93,13 @@ characterize 只运行 eager 数值检查和计时。查看 `summary.json` 的 `
 
 ```bash
 CUDA_VISIBLE_DEVICES=0 bash scripts/run_local_supplement.sh 4060 real \
+  --precision-policy strict_fp32 \
   --models resnet50 vit_b_16 --batch 1 --lengths 10 50 100 500 --repeats 5 \
   --assets data/prepared/supplement_images_v1 \
   --run-dir data/raw/supplement_4060_session01_real --execute
 
 CUDA_VISIBLE_DEVICES=0 bash scripts/run_local_supplement.sh v100 real \
+  --precision-policy strict_fp32 \
   --models resnet50 vit_b_16 --batch 1 --lengths 10 50 100 500 --repeats 5 \
   --assets data/prepared/supplement_images_v1 \
   --run-dir data/raw/supplement_v100_session01_real --execute
@@ -100,7 +109,7 @@ CUDA_VISIBLE_DEVICES=0 bash scripts/run_local_supplement.sh v100 real \
 
 ## 7. 计时、正确性与旧实验的边界
 
-- 历史 runner 与历史 raw 不修改；新结果为 `supplement-v1`，不能直接混入旧 schema 的汇总脚本。
+- 历史 runner 与历史 raw 不修改；补实验按 precision policy 标为 `supplement-v1` 或 `supplement-v2`，不能直接混入旧 schema 的汇总脚本，也不能合并不同精度的 repeats。
 - 真实模型的任务时间从 CUDA context 已建立后开始，包括准备资产的 CPU 读取、模型实例化、权重加载/H2D、输入池准备、compile/capture/setup、N 次实际计算以及每步相同的输入 H2D。单独报告 initialization/setup/execution/total。
 - 磁盘图像解码和预处理属于提前准备，网络下载、Python import、CUDA context 创建、hash 检查及 correctness inspection 不进入该任务时间。hash 检查可能预热文件缓存；不宣称冷磁盘加载或完整应用冷启动。
 - 普通 compile 的首次编译在第一次执行中发生，因此 `execution_s` 包含该成本；`optimization_setup_s` 不是完整编译成本估计，也不要据此声称 steady-state step speedup。
