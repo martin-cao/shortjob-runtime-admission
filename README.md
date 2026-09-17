@@ -1,8 +1,6 @@
-# Shortjob Runtime Admission
+# Admit or Avoid: Characterizing Runtime Optimization Decisions for Short-Lived GPU Jobs
 
 This repository is the public companion artifact for a study of **worker-local runtime optimization admission** for short-lived GPU AI jobs.
-
-**Admit or Avoid: Characterizing Runtime Optimization Decisions for Short-Lived GPU Jobs**
 
 The question is not "which PyTorch switch is faster overall." The question is:
 
