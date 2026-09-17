@@ -7,3 +7,12 @@ authors:
 date-released: 2026-06-29
 version: "0.1.0"
 repository-code: "https://github.com/martin-cao/shortjob-runtime-admission"
+preferred-citation:
+  type: conference-paper
+  title: "Admit or Avoid: Characterizing Runtime Optimization Decisions for Short-Lived GPU Jobs"
+  authors:
+    - family-names: "Cao"
+      given-names: "Shurui"
+  collection-title: "IEEE International Conference on Parallel and Distributed Systems (ICPADS)"
+  year: 2026
+  notes: "Accepted as a full paper."

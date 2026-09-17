@@ -2,6 +2,8 @@
 
 This repository is the public companion artifact for a study of **worker-local runtime optimization admission** for short-lived GPU AI jobs.
 
+**Admit or Avoid: Characterizing Runtime Optimization Decisions for Short-Lived GPU Jobs**
+
 The question is not "which PyTorch switch is faster overall." The question is:
 
 > Can a GPU worker decide whether to admit or avoid heavyweight runtime optimizations such as `torch.compile` and CUDA Graphs before paying their upfront compile or capture cost?
