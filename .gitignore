@@ -21,3 +21,9 @@ scratch/
 
 # Prepared image pools and pretrained weight files stay local.
 /data/prepared/
+
+# 累计实验数据在本地审核后作为 Release 数据集发布。
+/data/camera_ready_v0.2.0/
+
+# 实验生成结果由 Release 管理。
+/results/

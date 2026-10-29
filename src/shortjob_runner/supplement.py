@@ -56,7 +56,7 @@ def environment(platform_name):
     except importlib.metadata.PackageNotFoundError:
         env['torchvision'] = None
     problems = validate_environment(env)
-    if platform_name not in str(env.get('gpu', '')).lower():
+    if platform_name != 'auto' and platform_name.lower() not in str(env.get('gpu', '')).lower():
         problems.append(f'Platform {platform_name} does not match {env.get("gpu")}')
     if problems:
         raise ValueError('; '.join(problems))
@@ -158,7 +158,8 @@ def run_tasks(args, tasks):
         for model in args.models:
             validate_assets(assets, model)
     env = environment(args.platform)
-    manifest = {'protocol': protocol, 'precision_policy': precision_policy, 'platform': args.platform, 'tasks': tasks,
+    platform_name = env['runtime']['gpu'] if args.platform == 'auto' else args.platform
+    manifest = {'protocol': protocol, 'precision_policy': precision_policy, 'platform': platform_name, 'tasks': tasks,
                 'source_hash': source_hash(), 'environment_identity': resume_identity(env),
                 'assets_manifest_hash': sha256(assets / 'manifest.json') if assets else None,
                 'timeout_seconds': args.timeout}
@@ -289,7 +290,7 @@ def main(argv=None):
     run.add_argument('--precision-policy', choices=POLICIES, default=DEFAULT_POLICY,
                      help='strict_fp32 is a separate v2 regime; never reuse v1 timing or gates')
     run.add_argument('--models', nargs='+', choices=MODELS, default=['resnet50', 'vit_b_16'])
-    run.add_argument('--platform', choices=['4060', 'v100', 'a100', 'h100'])
+    run.add_argument('--platform', default='auto', help='auto 记录实际 GPU 型号；显式值检查型号关键字')
     run.add_argument('--batch', type=int, default=1)
     run.add_argument('--lengths', type=int, nargs='+', default=[10, 50, 100, 500])
     run.add_argument('--repeats', type=int, default=5)

@@ -290,7 +290,7 @@ def markdown_summary(all_rows: dict[str, list[dict[str, Any]]], reason_rows: lis
         "## Four-Device Summary",
         "",
         f"- Each device has {status_counts['pass']} pass, {status_counts['infeasible']} infeasible, and {status_counts['fail']} fail cells out of 104.",
-        "- The pass/infeasible/fail pattern is identical on RTX 4060, V100, A100, and H100.",
+        "- The pass/infeasible/fail pattern is identical on RTX 4060 Laptop, V100, A100, and H100.",
         "",
         "## Fail Distribution",
         "",

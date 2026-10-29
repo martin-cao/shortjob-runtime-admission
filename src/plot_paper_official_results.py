@@ -19,6 +19,11 @@ TABLE_ROOT = ROOT / "results" / "tables"
 OUT_FIG = ROOT / "results" / "figures" / "paper_official_20260627"
 OUT_TAB = ROOT / "results" / "tables" / "paper_official_20260627"
 
+# Historical table keys stay unchanged; all displayed model names include Laptop.
+def display_device(device: str) -> str:
+    return "RTX 4060 Laptop" if device == "RTX 4060" else device
+
+
 # Per-device bar colors for the multi-device grouped figures.
 DEVICE_BAR_COLORS = ["#4E79A7", "#F28E2B", "#59A14F", "#E15759"]
 
@@ -377,7 +382,7 @@ def plot_oracle_action_mix(device_rows: dict[str, list[dict[str, Any]]]) -> list
                 label=label,
             )
             left += vals
-        ax.set_title(device)
+        ax.set_title(display_device(device))
         ax.set_xlim(0, 1)
         ax.set_xlabel("Oracle share")
         ax.set_xticks([0, 0.5, 1.0])
@@ -573,7 +578,7 @@ def plot_policy_and_queue(device_policy: dict[str, list[dict[str, Any]]], device
                 }
             )
         offset = (idx - (n_dev - 1) / 2) * width
-        axes[0].bar(x + offset, np.maximum(vals, 1e-4), width=width, label=device, color=DEVICE_BAR_COLORS[idx])
+        axes[0].bar(x + offset, np.maximum(vals, 1e-4), width=width, label=display_device(device), color=DEVICE_BAR_COLORS[idx])
 
     axes[0].set_yscale("log")
     axes[0].set_ylabel("P90 normalized regret")
@@ -617,7 +622,7 @@ def plot_policy_and_queue(device_policy: dict[str, list[dict[str, Any]]], device
                 }
             )
         offset = (idx - (n_dev - 1) / 2) * width
-        axes[1].bar(x2 + offset, np.maximum(vals, 1e-3), width=width, label=device, color=DEVICE_BAR_COLORS[idx])
+        axes[1].bar(x2 + offset, np.maximum(vals, 1e-3), width=width, label=display_device(device), color=DEVICE_BAR_COLORS[idx])
 
     axes[1].set_yscale("log")
     axes[1].set_ylabel("Heavy-load P95 completion (s)")

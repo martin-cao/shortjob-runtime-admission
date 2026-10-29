@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate pilot v1 figures for the RTX 4060 short-job experiment."""
+"""Generate pilot v1 figures for the RTX 4060 Laptop short-job experiment."""
 
 from __future__ import annotations
 
@@ -476,7 +476,7 @@ def plot_queue_replay(queue: pd.DataFrame, out_dir: Path) -> None:
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Plot RTX 4060 pilot v1 figures")
+    parser = argparse.ArgumentParser(description="Plot RTX 4060 Laptop pilot v1 figures")
     parser.add_argument(
         "--summary",
         type=Path,

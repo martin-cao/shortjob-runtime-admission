@@ -1,5 +1,20 @@
 # src Experiment Code Guide
 
+## Camera-ready entry points
+
+The current reconstruction starts with `verify_camera_ready_data.py`, then
+`reproduce_camera_ready.py`, followed by `verify_camera_ready_results.py`.
+`plot_camera_ready.py` renders the rebuilt numerical results into a new directory.
+See [REPRODUCIBILITY.md](../REPRODUCIBILITY.md) for complete commands and
+[METRIC_DEFINITIONS.md](../METRIC_DEFINITIONS.md) for the current analysis rules.
+
+The repository's `measurement_source/` directory retains the frozen measurement
+code and dependency files. The Release contains measurement data and results.
+`verify_release.py` checks their integrity and the corresponding code identity;
+`verify_reproduced_results.py` compares the rebuilt scientific outputs.
+
+## Measurement tools
+
 `src/` is the code entry point for the public artifact. It implements the minimum reproducible experiment pipeline:
 
 ```text
@@ -85,7 +100,8 @@ uv run python src/run_shortjob_isolated.py \
   --num-steps 50 \
   --repeats 1 \
   --seed 42 \
-  --out data/raw/smoke_shortjob.jsonl
+  --cache-dir-root ../shortjob-artifacts/compile-cache/smoke \
+  --out ../shortjob-artifacts/data/raw/smoke_shortjob.jsonl
 ```
 
 `run_shortjob_isolated.py` launches each condition in a separate Python process to reduce cross-condition contamination from `torch.compile`, Inductor, and CUDA Graph state.
@@ -94,20 +110,20 @@ uv run python src/run_shortjob_isolated.py \
 
 ```bash
 uv run python src/summarize_shortjob.py \
-  --input data/raw/smoke_shortjob.jsonl \
-  --out results/tables/smoke_action_summary.jsonl \
+  --input ../shortjob-artifacts/data/raw/smoke_shortjob.jsonl \
+  --out ../shortjob-artifacts/results/tables/smoke_action_summary.jsonl \
   --allow-unconstrained
 
 uv run python src/evaluate_baselines.py \
-  --summary results/tables/smoke_action_summary.jsonl \
-  --out results/tables/smoke_policy_eval.jsonl \
-  --aggregate-out results/tables/smoke_policy_aggregate.jsonl \
+  --summary ../shortjob-artifacts/results/tables/smoke_action_summary.jsonl \
+  --out ../shortjob-artifacts/results/tables/smoke_policy_eval.jsonl \
+  --aggregate-out ../shortjob-artifacts/results/tables/smoke_policy_aggregate.jsonl \
   --allow-unconstrained
 
 uv run python src/replay_worker_queue.py \
-  --summary results/tables/smoke_action_summary.jsonl \
-  --policy-eval results/tables/smoke_policy_eval.jsonl \
-  --out results/tables/smoke_queue_replay.jsonl \
+  --summary ../shortjob-artifacts/results/tables/smoke_action_summary.jsonl \
+  --policy-eval ../shortjob-artifacts/results/tables/smoke_policy_eval.jsonl \
+  --out ../shortjob-artifacts/results/tables/smoke_queue_replay.jsonl \
   --num-jobs 100 \
   --seeds 1 2 3 \
   --job-mix-id smoke \
@@ -117,11 +133,17 @@ uv run python src/replay_worker_queue.py \
 
 ## Public Result Package
 
-The public summary/figure package is:
+Current camera-ready results are reconstructed into the explicitly selected
+output directory. Historical results retain their v0.1.0 scope.
+
+The Release contains the current results and historical summaries:
 
 ```text
-results/tables/paper_official_20260627/
-results/figures/paper_official_20260627/
+results/camera_ready_v0.2.0/
+results/figures/camera_ready_v0.2.0/
+results/historical_20260627/
 ```
 
-These are derived public tables and figures generated from complete GPU raw JSONL runs. The raw runs are larger and are not committed to Git.
+These outputs and the raw measurements are distributed together in the Release
+data archive. Measurements, prepared inputs, caches and analysis outputs use an
+external working directory, such as `../shortjob-artifacts/`.

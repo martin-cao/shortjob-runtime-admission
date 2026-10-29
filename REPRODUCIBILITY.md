@@ -1,156 +1,80 @@
-# Reproducibility Guide
+# Reproduction guide
 
-This document describes the public artifact workflow. Unless noted otherwise, run all commands from the repository root.
+Run all commands from the repository root. This repository contains code, scripts, dependencies, and reproduction instructions. Release assets contain experimental data and results.
 
-The independent single-GPU supplemental protocol is documented in [SUPPLEMENTAL_EXPERIMENTS.md](SUPPLEMENTAL_EXPERIMENTS.md). It has separate inputs and outputs; historical results below retain their original protocol.
+## Release asset and external working directory
 
-## 1. CPU-Side Setup
+Download `shortjob_camera_ready_v0.2.0_data.tar.gz` and `SHA256SUMS` into `../shortjob-artifacts/`. Run `shasum -a 256 -c SHA256SUMS` from that external directory, then extract the archive:
 
-Install the locked dependencies and run the CPU-side test suite:
-
-```bash
-uv sync
-uv run python -m unittest discover -s tests
+```sh
+mkdir -p ../shortjob-artifacts/release-input
+tar -xzf ../shortjob-artifacts/shortjob_camera_ready_v0.2.0_data.tar.gz -C ../shortjob-artifacts/release-input
 ```
 
-Inspect CLI help:
+| Path within the archive | Contents |
+|---|---|
+| `data/camera_ready_v0.2.0/` | 49,134 formal records, environments, input asset identities, and paper reference values |
+| `results/camera_ready_v0.2.0/` | Reconstructed results, CSV tables, queue traces, and verification records |
+| `results/figures/camera_ready_v0.2.0/` | Graph boundary and real-model effect figures |
+| `results/historical_20260627/` | Historical derived results with their original version scope |
+| `RELEASE_MANIFEST.json` | Data and result hashes, record count, and corresponding measurement-code identity |
+| `CHECKSUMS.sha256` | Per-file checksums within the archive |
 
-```bash
-uv run python src/run_shortjob_isolated.py --help
-uv run python src/summarize_shortjob.py --help
-uv run python src/evaluate_baselines.py --help
-uv run python src/replay_worker_queue.py --help
+Keep measurements, extracted data, build outputs, reconstructed results, and review records outside the code repository. `measurement_source/` retains the original measurement source bytes and identity manifest, including the relative paths used during measurement.
+
+## CPU environment and release verification
+
+Use Python 3.11:
+
+```sh
+python -m pip install -r requirements-analysis.txt
+python src/verify_release.py --release-root ../shortjob-artifacts/release-input/shortjob_camera_ready_v0.2.0 --out ../shortjob-artifacts/release-validation.json
 ```
 
-CPU-side tests and CLI inspection do not require an NVIDIA GPU.
+Verification checks the complete file set, SHA-256 hashes, experiment matrices, task uniqueness, gate associations, precision settings, record counts, frozen measurement code, and verification status of packaged results. Input files are read-only; write verification reports outside the extracted release directory.
 
-## 2. GPU Preflight
+## Complete reconstruction and independent verification
 
-On a Linux machine with an NVIDIA GPU, verify the runtime environment, then run a minimal correctness check:
-
-```bash
-uv sync
-uv run python src/check_runtime_env.py
-uv run python src/check_correctness.py \
-  --workload fixed_shape_infer_small \
-  --action eager graphs_only \
-  --batch-size 4 \
-  --num-steps 3 \
-  --out data/raw/smoke_correctness_gate.jsonl
+```sh
+python src/reproduce_camera_ready.py --data-root ../shortjob-artifacts/release-input/shortjob_camera_ready_v0.2.0/data/camera_ready_v0.2.0 --out ../shortjob-artifacts/reproduced-results
+python src/verify_camera_ready_results.py --data-root ../shortjob-artifacts/release-input/shortjob_camera_ready_v0.2.0/data/camera_ready_v0.2.0 --results ../shortjob-artifacts/reproduced-results
+python scripts/verify_submitted_paper.py --data-root ../shortjob-artifacts/release-input/shortjob_camera_ready_v0.2.0/data/camera_ready_v0.2.0 --results ../shortjob-artifacts/reproduced-results
+python src/verify_reproduced_results.py --reference ../shortjob-artifacts/release-input/shortjob_camera_ready_v0.2.0/results/camera_ready_v0.2.0 --reproduced ../shortjob-artifacts/reproduced-results --out ../shortjob-artifacts/result-comparison.json
+python src/plot_camera_ready.py --results ../shortjob-artifacts/reproduced-results --out ../shortjob-artifacts/reproduced-figures
 ```
 
-`check_correctness.py` may return a nonzero exit code when some actions fail or are infeasible. That is not necessarily a runner crash. 
+Reconstruction covers cold execution, warm compilation caches, eight-job graph reuse, policies, queue replay, repeat omission, and prediction diagnostics for the four original controlled configurations and the full independent V100 replication. It also reconstructs all nine real-model sessions.
 
-In the full experiment pipeline, failed and infeasible action records are used to construct eligibility gates and blocklists. The preflight command above is an independent execution check and is not consumed by the minimal smoke analysis in the next section.
+`reference/expected.json` is consulted only after the measurement-derived calculations are complete. Floating-point comparisons use a tolerance of `1e-11 * max(1, abs(expected))`. The independent verifier reads measurements directly and recomputes medians, valid policy regret, FCFS recurrences, and real-model statistics. The submitted-paper check covers Tables I-VI, Figure 2 cells, and the Figure 3 MobileNet estimates; complete plotting values are checked during reconstruction.
 
-## 3. Minimal Smoke Run
+The result-comparison command checks every JSON, JSONL, and CSV file in two independent output directories using SHA-256. Figures are written to a new directory; PDF creation-time metadata is handled separately. Reconstruction and figure output directories must not already exist.
 
-Run a small GPU measurement:
+## Repeating GPU measurements
 
-```bash
-uv run python src/run_shortjob_isolated.py \
-  --workload fixed_shape_infer_small \
-  --action eager graphs_only \
-  --batch-size 16 \
-  --num-steps 50 \
-  --repeats 1 \
-  --seed 42 \
-  --device cuda \
-  --time-accounting-mode cold_total \
-  --cache-state cold_cache \
-  --out data/raw/smoke_shortjob.jsonl
+GPU measurement requires Linux, a compatible NVIDIA driver, and one visible GPU. The runner records the actual device, driver, and resource configuration:
+
+```sh
+uv sync --frozen --extra real-models
+uv run --frozen python src/check_runtime_env.py
+env CUDA_VISIBLE_DEVICES=0 SHORTJOB_RUN_MODE=official SHORTJOB_DRY_RUN=1 SHORTJOB_NOTIFY_DISABLED=1 DEVICE_TAG=controlled_session01 bash scripts/run_official_core.sh
 ```
 
-Generate a summary, evaluate the baseline policies, and run a small worker-queue replay:
+Inspect the command plan, then use `SHORTJOB_DRY_RUN=0` for measurement. The suite runs reference-cell correctness checks, the cold matrix, separate cache priming, warm-cache measurements, and graph reuse. Give each new campaign a new session name and separate caches.
 
-```bash
-uv run python src/summarize_shortjob.py \
-  --input data/raw/smoke_shortjob.jsonl \
-  --out results/tables/smoke_action_summary.jsonl \
-  --allow-unconstrained
+See [SUPPLEMENTAL_EXPERIMENTS.md](SUPPLEMENTAL_EXPERIMENTS.md) for real-model and expanded correctness experiments. Prepare images and weights from the release asset manifest while preserving precision, input refresh, effective-update counts, and timing boundaries.
 
-uv run python src/evaluate_baselines.py \
-  --summary results/tables/smoke_action_summary.jsonl \
-  --out results/tables/smoke_policy_eval.jsonl \
-  --aggregate-out results/tables/smoke_policy_aggregate.jsonl \
-  --allow-unconstrained
+## Mapping to the paper
 
-uv run python src/replay_worker_queue.py \
-  --summary results/tables/smoke_action_summary.jsonl \
-  --policy-eval results/tables/smoke_policy_eval.jsonl \
-  --out results/tables/smoke_queue_replay.jsonl \
-  --num-jobs 100 \
-  --seeds 1 2 3 \
-  --job-mix-id smoke \
-  --trace-id-prefix smoke \
-  --allow-unconstrained
-```
+| Paper content | Output relative to `results/camera_ready_v0.2.0/` |
+|---|---|
+| Table I: reference-cell screening | Original gates and `data_validation.json` |
+| Table II: expanded correctness | Supplemental task records and `real/` |
+| Figure 2: graph boundaries | `fig_oracle_action_mix` in `plotted_values.json` |
+| Table III: boundary stability and reuse | `tables/boundaries.csv` and `controlled/` |
+| Figure 3: real-model effects and envelopes | `real_model_results` in `plotted_values.json` and `tables/real_models.csv` |
+| Table IV: policy regret | `tables/policies.csv` |
+| Table V: uniform heavy-load queue | `queue_statistics` in `controlled/<device>/analysis.json` |
+| Table VI: job-mix sensitivity | `tables/queue_improvements.csv` |
+| Independent V100 replication | `replication/` and `replication_comparison.json` |
 
-## 4. Full GPU Core Suite
-
-`scripts/run_official_core.sh` runs the GPU-side phases:
-
-1. correctness gate
-2. cold-core sweep
-3. warm compile-cache sensitivity
-4. graph-reuse sensitivity
-
-Smoke mode:
-
-```bash
-SHORTJOB_RUN_MODE=smoke bash scripts/run_official_core.sh
-```
-
-Official mode:
-
-```bash
-SHORTJOB_RUN_MODE=official bash scripts/run_official_core.sh
-```
-
-In this repository, official denotes the full experiment configuration used for the paper-facing result package, as opposed to the reduced smoke configuration.
-
-Useful environment variables:
-
-- `DEVICE_LABEL`: optional human-readable GPU label.
-- `DEVICE_TAG`: output tag; defaults to `official_<device>_<YYYYMMDD>`.
-- `CUDA_DEVICE`: default `cuda`.
-- `SHORTJOB_DRY_RUN=1`: print commands without executing.
-- `SHORTJOB_SKIP_UV_SYNC=1`: skip `uv sync`.
-- `SHORTJOB_RUN_GATE`, `SHORTJOB_RUN_COLD`, `SHORTJOB_RUN_WARM`, `SHORTJOB_RUN_GRAPH`: phase toggles.
-
-Raw outputs are written under:
-
-```text
-data/raw/<DEVICE_TAG>/
-data/env/<DEVICE_TAG>_env.txt
-```
-
-Preserve the environment snapshot alongside each run. Measurements collected on different GPU or software configurations should remain explicitly labeled.
-
-## 5. Released Results and Raw Measurements
-
-The repository includes the paper-facing derived result package:
-
-```text
-results/tables/paper_official_20260627/
-results/figures/paper_official_20260627/
-```
-
-These directories contain the derived tables and figures used to support the paper’s reported results. They can be inspected without re-running the GPU measurement suite.
-
-The full per-condition GPU measurement logs are distributed separately as the following GitHub Release asset:
-
-```text
-shortjob_paper_official_20260627_raw.tar.gz
-```
-
-Its expected SHA-256 checksum and extraction commands are documented in the repository `README.md`. The archive contains the raw JSONL measurements and environment snapshots used to generate the bundled result package.
-
-After verifying and extracting the archive, place its contents under:
-
-```text
-data/raw/
-data/env/
-```
-
-Use the artifact manifest and analysis commands in this repository to regenerate the derived summaries and figures from the released measurements.
+See [METRIC_DEFINITIONS.md](METRIC_DEFINITIONS.md) for timing contracts, eligible candidates, and metric denominators. CPU reconstruction uses completed measurements; new GPU campaigns must be analyzed using their own observed values.

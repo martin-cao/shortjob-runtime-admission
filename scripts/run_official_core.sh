@@ -42,6 +42,7 @@ Key environment variables:
   SHORTJOB_RUN_MODE     official (default) or smoke.
   DEVICE_LABEL          Optional; auto-detected from nvidia-smi.
   DEVICE_TAG            Optional; defaults to official_<device>_<YYYYMMDD>.
+  ARTIFACT_DIR          External data/cache root; defaults to ../shortjob-artifacts.
   CUDA_DEVICE           Default: cuda.
   SHORTJOB_DRY_RUN      If 1, print commands without executing.
   SHORTJOB_SKIP_UV_SYNC If 1, skip uv sync.
@@ -72,13 +73,14 @@ export DEVICE_LABEL="${DEVICE_LABEL:-$(shortjob_infer_device_label)}"
 export DEVICE_TAG="${DEVICE_TAG:-$(shortjob_default_device_tag "$DEVICE_LABEL" "$RUN_MODE")}"
 
 CUDA_DEVICE="${CUDA_DEVICE:-cuda}"
-RAW_DIR="${RAW_DIR:-data/raw/${DEVICE_TAG}}"
+ARTIFACT_DIR="${ARTIFACT_DIR:-${ROOT_DIR}/../shortjob-artifacts}"
+RAW_DIR="${RAW_DIR:-${ARTIFACT_DIR}/data/raw/${DEVICE_TAG}}"
 GATE="${GATE:-${RAW_DIR}/correctness_gate.jsonl}"
 COLD_RAW="${COLD_RAW:-${RAW_DIR}/cold_core.jsonl}"
 WARM_RAW="${WARM_RAW:-${RAW_DIR}/warm_reuse_core.jsonl}"
 GRAPH_RAW="${GRAPH_RAW:-${RAW_DIR}/graph_reuse_core.jsonl}"
-ENV_OUT="${ENV_OUT:-data/env/${DEVICE_TAG}_env.txt}"
-CACHE_BASE="${CACHE_BASE:-/tmp/shortjob_runtime_cache/${DEVICE_TAG}}"
+ENV_OUT="${ENV_OUT:-${ARTIFACT_DIR}/data/env/${DEVICE_TAG}_env.txt}"
+CACHE_BASE="${CACHE_BASE:-${ARTIFACT_DIR}/compile-cache/${DEVICE_TAG}}"
 DRY_RUN="${SHORTJOB_DRY_RUN:-0}"
 HEARTBEAT_S="${SHORTJOB_HEARTBEAT_S:-1800}"
 
@@ -162,6 +164,7 @@ run_phase() {
 }
 
 assert_cuda_visible() {
+  [[ "$DRY_RUN" == "1" ]] && return 0
   [[ "$CUDA_DEVICE" != cuda* ]] && return 0
   if ! command -v nvidia-smi >/dev/null 2>&1; then
     shortjob_notify "critical" "GPU preflight failed" "nvidia-smi not found; pass GPU devices into the container before running experiments"
@@ -278,7 +281,9 @@ if [[ "$RUN_GRAPH" == "1" ]]; then
     --out "$GRAPH_RAW"
 fi
 
-if [[ "$OVERALL_STATUS" -eq 0 ]]; then
+if [[ "$DRY_RUN" == "1" ]]; then
+  shortjob_log "GPU core execution plan complete"
+elif [[ "$OVERALL_STATUS" -eq 0 ]]; then
   shortjob_notify "progress" "core experiment complete" "GPU core done; statistics/derived run separately"
   shortjob_log "GPU core complete: cold=${COLD_RAW} warm=${WARM_RAW} graph=${GRAPH_RAW}"
 else
